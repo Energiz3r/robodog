@@ -8,8 +8,14 @@
   },
   "author": "",
   "license": "ISC",
-  "dependencies": {
+  "optionalDependencies": {
     "i2c-bus": "^5.2.3",
     "pca9685": "^5.0.0"
+  },
+  "dependencies": {
+    "bezier": "^0.1.0",
+    "linspace": "^1.0.2",
+    "ndarray": "^1.0.19",
+    "numjs": "^0.16.1"
   }
 }
