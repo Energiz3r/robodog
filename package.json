@@ -7,5 +7,9 @@
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "author": "",
-  "license": "ISC"
+  "license": "ISC",
+  "dependencies": {
+    "i2c-bus": "^5.2.3",
+    "pca9685": "^5.0.0"
+  }
 }
