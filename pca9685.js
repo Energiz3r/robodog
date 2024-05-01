@@ -91,7 +91,7 @@ class Pca9685Driver {
                         function sendNextPacket(err) {
                             if (err) {
                                 // notify the callback of the error
-                                callback(err);
+                                //callback(err);
 
                                 // complete the stream so that the next I2C packet group can be sent
                                 subscriber.complete();
@@ -101,7 +101,7 @@ class Pca9685Driver {
                                 sendOnePacket(group.packets[thisPacket].command, group.packets[thisPacket].byte, sendNextPacket);
                             } else {
                                 // notify the callback with a success (no error parameter)
-                                group.callback();
+                                //group.callback();
 
                                 // complete the stream so that the next I2C packet group can be sent
                                 subscriber.complete();
@@ -175,7 +175,7 @@ class Pca9685Driver {
             { command: constants.channel0OnStepHighByte + constants.registersPerChannel * channel, byte: (onStep >> 8) & 0x0F },
             { command: constants.channel0OffStepLowByte + constants.registersPerChannel * channel, byte: offStep & 0xFF },
             { command: constants.channel0OffStepHighByte + constants.registersPerChannel * channel, byte: (offStep >> 8) & 0x0F }
-        ], callback || defaultCallback);
+        ]); //callback || defaultCallback
     }
 
 
