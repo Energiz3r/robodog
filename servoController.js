@@ -68,6 +68,7 @@ class ServoController {
     isReady = false;
 
     constructor() {
+        console.log("Servo controller created!")
         this.servo = Array(16)
             .fill()
             .map((_, i) => new Servo(i));

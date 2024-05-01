@@ -19,8 +19,8 @@ const motor = {
 }
 
 class Gait {
-    constructor() {
-        this.servoController = new ServoController();
+    constructor(servoController) {
+        this.servoController = servoController;
         this.upper_leg_length = 10;
         this.lower_leg_length = 10.5;
     }

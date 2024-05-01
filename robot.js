@@ -1,5 +1,6 @@
 const { parentPort } = require('worker_threads');
 const Gait = require("./gait.js");
+const ServoController = require("./servoController");
 
 let keysPressed = [];
 
@@ -56,9 +57,19 @@ const inputController = (momentum, accel=0.01, bound=4) => {
 
 const startRobot = () => {
     console.log("Robodog started!");
-    const gaitController = new Gait();
-    gaitController.calibrate();
-    gaitController.move(inputController);
+    const servoController = new ServoController();
+    const checkServoIsReady = () => {
+        if (servoController.isReady) {
+            console.log("Servos ready!")
+            const gaitController = new Gait(servoController);
+            gaitController.calibrate();
+            gaitController.move(inputController);
+        } else {
+            console.log("Waiting for servo ready...")
+            setTimeout(checkServoIsReady, 250)
+        }
+    }
+    checkServoIsReady();
 }
 
 startRobot();
