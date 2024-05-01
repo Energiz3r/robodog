@@ -134,14 +134,14 @@ class Gait {
         const loop = () => {
             if (close) {
                 console.log("Loop was terminated.")
-                return //process.exit();
+                process.exit();
             }
-            console.log("LOOP")
 
             const difference = process.hrtime(lastLoopTime)[1];
             if (difference > 1000 * 1000) { // 500 microseconds
                 lastLoopTime = process.hrtime();
             } else {
+                setTimeout(loop, 0)
                 return
             }
 
@@ -169,14 +169,14 @@ class Gait {
             this.inversePositioning(motor.FL_SHOULDER, motor.FL_ELBOW, x[i2], y[i2] - 1, false, -z[i2], motor.FL_HIP);
             this.inversePositioning(motor.BL_SHOULDER, motor.BL_ELBOW, x[i1], y[i1] + 2, false);
             index++;
+
             loop()
         }
 
-
-        // setInterval(() => {
-        //     const memoryData = process.memoryUsage();
-        //     console.log(`Heap total: ${formatMemoryUsage(memoryData.heapTotal)}`, close ? "NOT running" : "running");
-        // }, 1000)
+        setInterval(() => {
+            const memoryData = process.memoryUsage();
+            console.log(`Heap total: ${formatMemoryUsage(memoryData.heapTotal)}`, close ? "NOT running" : "running");
+        }, 1000)
 
         loop()
     }
