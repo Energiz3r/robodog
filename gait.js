@@ -2,6 +2,9 @@ var {Bezier} = require("bezier-js");
 var linspace = require("linspace");
 var ndarray = require("ndarray");
 var ServoController = require("./servoController.js");
+const readline = require('readline');
+let rl = readline.createInterface(
+    process.stdin, process.stdout);
 
 const average = (arr) => {
     var total = 0;
@@ -140,6 +143,9 @@ class Gait {
         let index = 0;
 
         let lastLoopTime = process.hrtime();
+        let lastCharTime = process.hrtime();
+        const chars = ['/', '-', '\\', '|'];
+        let charx = 0;
         setInterval(() => {
             if (close) process.exit();
 
@@ -148,6 +154,19 @@ class Gait {
                 lastLoopTime = process.hrtime();
             } else {
                 return
+            }
+
+            const differenceChar = process.hrtime(lastCharTime)[0];
+            if (differenceChar > 0 || lastCharTime === 0) { // 500 microseconds
+                lastCharTime = process.hrtime();
+                readline.cursorTo(process.stdout, 0);
+                let currentLine = rl.getCursorPos().cols;
+                if (currentLine > 2) {
+                    process.stdout.write('\n');
+                }
+                process.stdout.write('\r' + chars[charx++]);
+                readline.cursorTo(process.stdout, 0);
+                charx &= 3;
             }
 
             momentum = controller(momentum);

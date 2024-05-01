@@ -8,7 +8,7 @@ parentPort.on('message', (message) => {
     let keyChar = String.fromCharCode(keyCode);
     if (action === "keydown") {
         if (!keysPressed.includes(keyChar)) {
-            console.log("Keydown", keyChar)
+            //console.log("Keydown", keyChar)
             keysPressed.push(keyChar);
         }
     } else if (action === "keyup") {
