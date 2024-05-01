@@ -1,5 +1,6 @@
 var {Bezier} = require("bezier-js");
 var linspace = require("linspace");
+var config = require("./config");
 
 const formatMemoryUsage = (data) => `${Math.round(data / 1024 / 1024 * 100) / 100} MB`;
 
@@ -169,7 +170,7 @@ class Gait {
             this.inversePositioning(this.motors.BL_SHOULDER, this.motors.BL_ELBOW, x[i1], y[i1] + 2, false);
             index++;
 
-            setTimeout(loop, 35)
+            setTimeout(loop, config.speed)
         }
 
         setInterval(() => {
