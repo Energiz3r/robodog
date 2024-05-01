@@ -154,7 +154,7 @@ class Gait {
                 loopsSinceLastExec = 0;
                 lastLoopTime = process.hrtime();
                 if (numLoops === 100) {
-                    console.log("100 frames happened, skipped avg of", average(avgIgnoredLoopsPerFrame), "loops between frames")
+                    console.log(avgIgnoredLoopsPerFrame)
                     avgIgnoredLoopsPerFrame = [];
                     numLoops = 0;
                 }
