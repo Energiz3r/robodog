@@ -95,7 +95,7 @@ class Gait {
             }
         }
 
-        console.log("theta shoulder:",theta_shoulder,"\ttheta_elbow:",theta_elbow, "\ttheta_hip:", theta_hip);
+        if (shoulder === 0) console.log("shoulder:",theta_shoulder,"elbow:",theta_elbow, "hip:", theta_hip);
         this.setAngle(shoulder, theta_shoulder);
         this.setAngle(elbow, theta_elbow);
         if (hip) {
