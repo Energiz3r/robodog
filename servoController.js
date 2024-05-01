@@ -15,7 +15,8 @@ const dummyI2C = {
 
 class dummyPCA {
     constructor(options, callback) {
-        console.log('Dummy Pca9685Driver class');
+        const bus = options.i2c
+        console.log('Dummy Pca9685Driver class', bus);
         callback(false)
     }
 
