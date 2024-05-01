@@ -65,7 +65,7 @@ class Servo {
         //const dutyCycle = mapNumber(degrees, 0, 180, 0.0, 1.0)
         //console.log(Math.floor(degrees), dutyCycle)
         //pca9685ODevice.setDutyCycle(this.channel, dutyCycle)
-
+        if (this.channel === 0) console.log(degrees)
         const pulseLength = mapNumber(degrees, 0, 180, 500, 2500)
         pca9685ODevice.setPulseLength(this.channel, pulseLength)
     }
