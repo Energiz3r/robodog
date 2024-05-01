@@ -165,14 +165,16 @@ class Gait {
             this.inversePositioning(motor.FL_SHOULDER, motor.FL_ELBOW, x[i2], y[i2] - 1, false, -z[i2], motor.FL_HIP);
             this.inversePositioning(motor.BL_SHOULDER, motor.BL_ELBOW, x[i1], y[i1] + 2, false);
             index++;
-            setTimeout(loop, 0);
+            loop()
         }
-        loop()
+
 
         setInterval(() => {
             const memoryData = process.memoryUsage();
             console.log(`Heap total: ${formatMemoryUsage(memoryData.heapTotal)}`, close ? "NOT running" : "running");
         }, 1000)
+
+        loop()
     }
 }
 
