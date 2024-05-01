@@ -179,7 +179,7 @@ class Gait {
             this.inversePositioning(motor.BL_SHOULDER, motor.BL_ELBOW, x[i1], y[i1] + 2, false);
             index++;
 
-            setTimeout(loop, 0)
+            setTimeout(loop, 50)
         }
 
         setInterval(() => {
