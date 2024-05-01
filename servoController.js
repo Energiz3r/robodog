@@ -32,8 +32,8 @@ class dummyPCA {
 
 try {
     i2cBus = require('i2c-bus');
-    Pca9685DriverTest = require('pca9685').Pca9685Driver;
-    Pca9685Driver = Pca9685DriverClass
+    Pca9685Driver = require('pca9685').Pca9685Driver;
+    //Pca9685Driver = Pca9685DriverClass
     console.log(chalk.green('Hardware libraries OK!'));
 } catch (error) {
     console.log(chalk.yellow('Hardware libraries not available! Simulating servo output.'));
