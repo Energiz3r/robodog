@@ -147,7 +147,7 @@ class Gait {
             }
 
             const difference = process.hrtime(lastLoopTime)[1];
-            if (difference > 1000 * 1000) { // 500 microseconds
+            if (difference > 500 * 1000) { // 500 microseconds
                 lastLoopTime = process.hrtime();
             } else {
                 setTimeout(loop, 0)
@@ -179,7 +179,7 @@ class Gait {
             this.inversePositioning(motor.BL_SHOULDER, motor.BL_ELBOW, x[i1], y[i1] + 2, false);
             index++;
 
-            setTimeout(loop, 5)
+            setTimeout(loop, 0)
         }
 
         setInterval(() => {
