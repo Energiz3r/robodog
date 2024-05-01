@@ -19,7 +19,8 @@ class Gait {
             const callback = () => {
                 this.writingServos = this.writingServos.filter(id => id !== motor_id)
             }
-            this.servoController.servo[motor_id].setAngle(degrees, callback);
+            console.log("servo", motor_id, this.servoController.servo[motor_id])
+            //this.servoController.servo[motor_id].setAngle(degrees, callback);
         }
         // else {
         //     console.log("Tried to overwrite a servo")
@@ -40,10 +41,10 @@ class Gait {
         this.setAngle(this.motors.FL_HIP, 90);
         this.setAngle(this.motors.BR_SHOULDER, 60);
         this.setAngle(this.motors.BR_ELBOW, 90);
-        // this.setAngle(this.motors.BR_HIP, 90); // unused
+        this.setAngle(this.motors.BR_HIP, 90); // unused
         this.setAngle(this.motors.BL_SHOULDER, 120);
         this.setAngle(this.motors.BL_ELBOW, 90);
-        // this.setAngle(this.motors.BL_HIP, 90); // unused
+        this.setAngle(this.motors.BL_HIP, 90); // unused
     }
 
     inversePositioning(shoulder, elbow, x, y, right, z = 0, hip = null) {
