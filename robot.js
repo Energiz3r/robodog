@@ -63,7 +63,7 @@ const startRobot = () => {
             console.log("Servos ready!")
             const gaitController = new Gait(servoController);
             gaitController.calibrate();
-            //gaitController.move(inputController);
+            gaitController.move(inputController);
         } else {
             console.log("Waiting for servo ready...")
             setTimeout(checkServoIsReady, 250)
