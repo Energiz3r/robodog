@@ -26,7 +26,7 @@ class Gait {
     }
 
     setAngle(motor_id, degrees) {
-        this.servoController.servo[motor_id].setAngle(degrees);
+        //this.servoController.servo[motor_id].setAngle(degrees);
     }
 
     radToDegree(rad) {
@@ -165,12 +165,12 @@ class Gait {
             this.inversePositioning(motor.FL_SHOULDER, motor.FL_ELBOW, x[i2], y[i2] - 1, false, -z[i2], motor.FL_HIP);
             this.inversePositioning(motor.BL_SHOULDER, motor.BL_ELBOW, x[i1], y[i1] + 2, false);
             index++;
-            if (index === 5000) {
-                console.log("Loop stopping...")
-                close = true
-                index = 0
-                setTimeout(() => close = false, 5000);
-            }
+            // if (index === 5000) {
+            //     console.log("Loop stopping...")
+            //     close = true
+            //     index = 0
+            //     setTimeout(() => close = false, 5000);
+            // }
         }, 0)
 
         setInterval(() => {
