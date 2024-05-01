@@ -173,10 +173,10 @@ class Gait {
         }
 
 
-        setInterval(() => {
-            const memoryData = process.memoryUsage();
-            console.log(`Heap total: ${formatMemoryUsage(memoryData.heapTotal)}`, close ? "NOT running" : "running");
-        }, 1000)
+        // setInterval(() => {
+        //     const memoryData = process.memoryUsage();
+        //     console.log(`Heap total: ${formatMemoryUsage(memoryData.heapTotal)}`, close ? "NOT running" : "running");
+        // }, 1000)
 
         loop()
     }
