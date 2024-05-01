@@ -46,7 +46,7 @@ const pca9685Options = {
     i2c: i2cBus.openSync(0),
     address: 0x40,
     frequency: 50,
-    debug: false
+    debug: true
 };
 
 pwm = new Pca9685Driver(pca9685Options, function(err) {
@@ -61,28 +61,31 @@ pwm = new Pca9685Driver(pca9685Options, function(err) {
 const testServo = () => {
     // Set channel 0 to turn on on step 42 and off on step 255
     // (with optional callback)
-    pwm.setPulseRange(0, 42, 255, function(err) {
-        if (err) {
-            console.error("Error setting pulse range.");
-        }
-    });
+    // pwm.setPulseRange(0, 42, 255, function(err) {
+    //     if (err) {
+    //         console.error("Error setting pulse range.");
+    //     }
+    // });
 
     // Set the pulse length to 1500 microseconds for channel 2
-    pwm.setPulseLength(2, 1500);
+    // pwm.setPulseLength(2, 1500);
 
     // Set the duty cycle to 25% for channel 8
-    pwm.setDutyCycle(8, 0.25);
+    // pwm.setDutyCycle(8, 0.25);
 
     // Turn off all power to channel 6
     // (with optional callback)
-    pwm.channelOff(6, function(err) {
-        if (err) {
-            console.error("Error turning off channel.");
-        }
-    });
+    // pwm.channelOff(6, function(err) {
+    //     if (err) {
+    //         console.error("Error turning off channel.");
+    //     }
+    // });
 
     // Turn on channel 3 (100% power)
-    pwm.channelOn(3);
+    // pwm.channelOn(3);
+
+    // Set the pulse length to 1500 microseconds for channel 0
+    pwm.setPulseLength(0, 1500);
 }
 
 testServo();
