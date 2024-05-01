@@ -88,7 +88,7 @@ const testServo = () => {
     pwm.setPulseLength(0, 1500);
 }
 
-testServo();
+setTimeout(testServo, 5000);
 
 class Servo {
 
