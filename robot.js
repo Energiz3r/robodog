@@ -8,10 +8,12 @@ parentPort.on('message', (message) => {
     let keyChar = String.fromCharCode(keyCode);
     if (action === "keydown") {
         if (!keysPressed.includes(keyChar)) {
+            console.log("Keydown", keyChar)
             keysPressed.push(keyChar);
         }
     } else if (action === "keyup") {
         if (keysPressed.includes(keyChar)) {
+            console.log("Keyup", keyChar)
             keysPressed = keysPressed.filter(key => key !== keyChar);
         }
     }
