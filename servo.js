@@ -43,7 +43,7 @@ try {
 }
 
 const pca9685Options = {
-    i2c: i2cBus.openSync(1),
+    i2c: i2cBus.openSync(0),
     address: 0x40,
     frequency: 50,
     debug: false
