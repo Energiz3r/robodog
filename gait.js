@@ -3,6 +3,15 @@ var linspace = require("linspace");
 var ndarray = require("ndarray");
 var ServoController = require("./servoController.js");
 
+const average = (arr) => {
+    var total = 0;
+    for(var i = 0; i < arr.length; i++) {
+        total += arr[i];
+    }
+    var avg = total / arr.length;
+    return avg;
+}
+
 const motor = {
     // identifies the corresponding pin location with the motor location
     FR_SHOULDER: 0,
@@ -17,9 +26,6 @@ const motor = {
     BL_ELBOW: 9,
 }
 
-let highest = 0;
-let lowest = 0;
-
 class Gait {
     constructor() {
         this.servoController = new ServoController();
@@ -28,14 +34,6 @@ class Gait {
     }
 
     setAngle(motor_id, degrees) {
-        // if (degrees > highest) {
-        //     highest = degrees;
-        //     console.log("new highest", degrees)
-        // }
-        // if (degrees < lowest) {
-        //     lowest = degrees;
-        //     console.log("new lowest", degrees)
-        // }
         this.servoController.servo[motor_id].setAngle(degrees);
     }
 
@@ -119,7 +117,6 @@ class Gait {
 
         const s_vals = linspace(0.0, 1.0, 20);
 
-
         const step_nodes = [
             {x: -1.0, y: -1.0, z: -15.0},
             {x: -1.0, y: -1.0, z: -10.0},
@@ -141,8 +138,30 @@ class Gait {
         let close = false;
         let momentum = [0, 0, 1, 0];
         let index = 0;
+
+        let lastLoopTime = process.hrtime();
+        let loopsSinceLastExec = 0;
+        let numLoops = 0;
+        let avgIgnoredLoopsPerFrame = []
+
         setInterval(() => {
             if (close) process.exit();
+
+            const difference = process.hrtime(lastLoopTime)[1];
+            if (difference > 500 * 1000) { // 500 microseconds
+                numLoops++;
+                avgIgnoredLoopsPerFrame.push(loopsSinceLastExec);
+                loopsSinceLastExec = 0;
+                lastLoopTime = process.hrtime();
+                if (numLoops === 100) {
+                    console.log("100 frames happened, skipped avg of", average(avgIgnoredLoopsPerFrame), "loops between frames")
+                    avgIgnoredLoopsPerFrame = [];
+                    numLoops = 0;
+                }
+            } else {
+                loopsSinceLastExec++;
+                return
+            }
 
             momentum = controller(momentum);
             const trajectory = motion.map(point => ({
