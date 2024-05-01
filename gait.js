@@ -28,7 +28,7 @@ class Gait {
     }
 
     setAngle(motor_id, degrees) {
-        this.kit.servo[motor_id].setAngle(degrees);
+        this.kit.servo[motor_id].setAngle(degrees, motor_id === 0);
     }
 
     radToDegree(rad) {
