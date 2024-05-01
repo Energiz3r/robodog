@@ -5,7 +5,6 @@ const formatMemoryUsage = (data) => `${Math.round(data / 1024 / 1024 * 100) / 10
 
 class Gait {
     constructor(servoController, motors) {
-        console.log("Servo controller created!")
         this.motors = motors
         this.servoController = servoController;
         this.upper_leg_length = 10;
@@ -19,8 +18,8 @@ class Gait {
             const callback = () => {
                 this.writingServos = this.writingServos.filter(id => id !== motor_id)
             }
-            console.log("servo", motor_id, this.servoController.servo[motor_id])
-            //this.servoController.servo[motor_id].setAngle(degrees, callback);
+            const servo = this.servoController.servo.find(servo => servo.channel === motor_id)
+            servo.setAngle(degrees, callback);
         }
         // else {
         //     console.log("Tried to overwrite a servo")
@@ -32,7 +31,6 @@ class Gait {
     }
 
     calibrate() {
-        console.log("motors",this.motors)
         this.setAngle(this.motors.FR_SHOULDER, 60);
         this.setAngle(this.motors.FR_ELBOW, 90);
         this.setAngle(this.motors.FR_HIP, 90);
@@ -87,7 +85,7 @@ class Gait {
             }
         }
 
-        if (shoulder === 0) console.log("shoulder:",theta_shoulder,"elbow:",theta_elbow, "hip:", theta_hip);
+        //if (shoulder === 0) console.log("shoulder:",theta_shoulder,"elbow:",theta_elbow, "hip:", theta_hip);
         this.setAngle(shoulder, theta_shoulder);
         this.setAngle(elbow, theta_elbow);
         if (hip) {
@@ -179,6 +177,7 @@ class Gait {
             console.log(`Heap total: ${formatMemoryUsage(memoryData.heapTotal)}`, close ? "NOT running" : "running");
         }, 1000)
 
+        console.log("Running robot...")
         loop()
     }
 }

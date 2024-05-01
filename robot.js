@@ -52,7 +52,7 @@ const inputController = (momentum, accel= config.accel, bound=4) => {
         momentum[0] = decelerate(momentum[0])
         momentum[1] = decelerate(momentum[1])
     }
-    console.log("momentum", momentum)
+    //console.log("momentum", momentum)
     return momentum
 }
 
@@ -64,9 +64,9 @@ const startRobot = () => {
             console.log("Servos ready!")
             const gaitController = new Gait(servoController, config.motors);
             gaitController.calibrate();
-            // if (!config.calibrationOnly) {
-            //     gaitController.move(inputController);
-            // }
+            if (!config.calibrationOnly) {
+                gaitController.move(inputController);
+            }
         } else {
             console.log("Waiting for servo ready...")
             setTimeout(checkServoIsReady, 250)

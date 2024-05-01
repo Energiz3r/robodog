@@ -82,7 +82,6 @@ class ServoController {
     constructor(motors) {
         console.log("Servo controller created!")
         this.servo = Object.keys(motors).map((key) => {
-            console.log("Init servo", key, motors[key]);
             return new Servo(motors[key])
         });
         this.initialize().then(() => {
