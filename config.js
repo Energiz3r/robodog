@@ -1,6 +1,6 @@
 const config = {
     accel: 0.20,
-    calibrationOnly: true,
+    calibrationOnly: false,
     motors: {
         // identifies the corresponding pin location with the motor location
         FR_SHOULDER: 12,
