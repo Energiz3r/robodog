@@ -1,4 +1,5 @@
 var chalk = require('chalk');
+const config = require('../config');
 
 let i2cBus;
 let Pca9685Driver;
@@ -16,20 +17,13 @@ const dummyI2C = {
 class dummyPCA {
     constructor(options, callback) {
         const bus = options.i2c
-        console.log('Dummy Pca9685Driver class', bus);
         callback(false)
     }
 
     setPulseRange(channel, low, hi, callback) {
-        //console.log("Dummy channel set pulse range", channel, low, hi)
-    }
-
-    setDutyCycle(channel, dutyCycle) {
-        //console.log("Dummy channel set dutyCycle", channel, dutyCycle)
     }
 
     setPulseLength(channel, pulseLength) {
-        //console.log("Dummy channel set dutyCycle", channel, dutyCycle)
     }
 }
 
@@ -39,16 +33,16 @@ try {
     Pca9685Driver = require("./pca9685.js");
     console.log(chalk.green('Hardware libraries OK!'));
 } catch (error) {
-    console.log(chalk.yellow('Hardware libraries not available! Simulating servo output.'));
+    console.log(chalk.yellowBright('Hardware libraries not available! Simulating servo output.'));
     i2cBus = dummyI2C
     Pca9685Driver = dummyPCA
 }
 
 const pca9685Options = {
-    i2c: i2cBus.openSync(0),
-    address: 0x40,
-    frequency: 50,
-    debug: false
+    i2c: i2cBus.openSync(config.pca9685.i2cDevice),
+    address: config.pca9685.address,
+    frequency: config.pca9685.frequency,
+    debug: config.pca9685.debug
 };
 
 class Servo {
@@ -80,7 +74,6 @@ class ServoController {
     isReady = false;
 
     constructor(motors) {
-        console.log("Servo controller created!")
         this.servo = Object.keys(motors).map((key) => {
             return new Servo(motors[key])
         });
@@ -99,7 +92,6 @@ class ServoController {
                 if (err) {
                     reject(err);
                 } else {
-                    console.log("PCA9685 initialized!");
                     resolve();
                 }
             });

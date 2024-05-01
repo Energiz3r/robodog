@@ -1,12 +1,12 @@
 {
   "name": "robodog",
   "version": "1.0.0",
-  "description": "",
-  "main": "server.js",
+  "description": "the noob friendly quadruped robot",
+  "main": "robot.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "start": "node robot.js"
   },
-  "author": "",
+  "author": "Energiz3r",
   "license": "ISC",
   "optionalDependencies": {
     "i2c-bus": "^5.2.3",

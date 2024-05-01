@@ -1,4 +1,5 @@
 const config = {
+    port: 3000,
     accel: 0.20,
     speed: 26,
     calibrate: false,
@@ -16,6 +17,12 @@ const config = {
         BL_SHOULDER: 0,
         BL_ELBOW: 1,
         BL_HIP: 2 // unused
+    },
+    pca9685: {
+        i2cDevice: 0,
+        address: 0x40,
+        frequency: 50,
+        debug: false
     }
 }
 

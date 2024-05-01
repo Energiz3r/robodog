@@ -1,6 +1,7 @@
+var chalk = require('chalk');
 var {Bezier} = require("bezier-js");
 var linspace = require("linspace");
-var config = require("./config");
+var config = require("../config");
 
 const formatMemoryUsage = (data) => `${Math.round(data / 1024 / 1024 * 100) / 100} MB`;
 
@@ -173,12 +174,13 @@ class Gait {
             setTimeout(loop, config.speed)
         }
 
-        setInterval(() => {
-            const memoryData = process.memoryUsage();
-            console.log(`Heap total: ${formatMemoryUsage(memoryData.heapTotal)}`, close ? "NOT running" : "running");
-        }, 1000)
+        // // show heap usage
+        // setInterval(() => {
+        //     const memoryData = process.memoryUsage();
+        //     console.log(`Heap total: ${formatMemoryUsage(memoryData.heapTotal)}`, close ? "NOT running" : "running");
+        // }, 1000)
 
-        console.log("Running robot...")
+        console.log(chalk.greenBright("Robodog is running! 🐕"))
         loop()
     }
 }
