@@ -175,7 +175,7 @@ class Pca9685Driver {
             { command: constants.channel0OnStepHighByte + constants.registersPerChannel * channel, byte: (onStep >> 8) & 0x0F },
             { command: constants.channel0OffStepLowByte + constants.registersPerChannel * channel, byte: offStep & 0xFF },
             { command: constants.channel0OffStepHighByte + constants.registersPerChannel * channel, byte: (offStep >> 8) & 0x0F }
-        ]); //callback || defaultCallback
+        ], callback || defaultCallback);
     }
 
 
