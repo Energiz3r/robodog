@@ -6,14 +6,7 @@ const readline = require('readline');
 let rl = readline.createInterface(
     process.stdin, process.stdout);
 
-const average = (arr) => {
-    var total = 0;
-    for(var i = 0; i < arr.length; i++) {
-        total += arr[i];
-    }
-    var avg = total / arr.length;
-    return avg;
-}
+const formatMemoryUsage = (data) => `${Math.round(data / 1024 / 1024 * 100) / 100} MB`;
 
 const motor = {
     // identifies the corresponding pin location with the motor location
@@ -159,14 +152,26 @@ class Gait {
             const differenceChar = process.hrtime(lastCharTime)[0];
             if (differenceChar > 0 || lastCharTime === 0) { // 500 microseconds
                 lastCharTime = process.hrtime();
-                readline.cursorTo(process.stdout, 0);
-                let currentLine = rl.getCursorPos().cols;
-                if (currentLine > 2) {
-                    process.stdout.write('\n');
-                }
-                process.stdout.write('\r' + chars[charx++]);
-                readline.cursorTo(process.stdout, 0);
-                charx &= 3;
+
+                const memoryData = process.memoryUsage();
+
+                const memoryUsage = {
+                    rss: `${formatMemoryUsage(memoryData.rss)} -> Resident Set Size - total memory allocated for the process execution`,
+                    heapTotal: `${formatMemoryUsage(memoryData.heapTotal)} -> total size of the allocated heap`,
+                    heapUsed: `${formatMemoryUsage(memoryData.heapUsed)} -> actual memory used during the execution`,
+                    external: `${formatMemoryUsage(memoryData.external)} -> V8 external memory`,
+                };
+
+                console.log(memoryUsage);
+
+                // readline.cursorTo(process.stdout, 0);
+                // let currentLine = rl.getCursorPos().cols;
+                // if (currentLine > 2) {
+                //     process.stdout.write('\n');
+                // }
+                // process.stdout.write('\r' + chars[charx++]);
+                // readline.cursorTo(process.stdout, 0);
+                // charx &= 3;
             }
 
             momentum = controller(momentum);
