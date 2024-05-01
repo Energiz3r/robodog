@@ -51,7 +51,7 @@ const inputController = (momentum, accel=0.01, bound=4) => {
         momentum[0] = decelerate(momentum[0])
         momentum[1] = decelerate(momentum[1])
     }
-    //console.log("momentum", momentum)
+    console.log("momentum", momentum)
     return momentum
 }
 
