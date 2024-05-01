@@ -35,7 +35,7 @@ const inputController = (momentum, accel=0.01, bound=4) => {
             const func = val > 0 ? Math.floor : Math.ceil;
             const mom = func(val * 100) / 100
             if (mom > 0) {
-                console.log("mom - accel", mom - accel)
+                //console.log("mom - accel", mom - accel)
                 if (mom - accel > 0) return mom - accel
                 else return 0
             }
