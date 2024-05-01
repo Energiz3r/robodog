@@ -131,7 +131,7 @@ class Gait {
         let index = 0;
 
         let lastLoopTime = process.hrtime();
-        setInterval(() => {
+        const loop = () => {
             if (close) return //process.exit();
 
             const difference = process.hrtime(lastLoopTime)[1];
@@ -165,7 +165,8 @@ class Gait {
             this.inversePositioning(motor.FL_SHOULDER, motor.FL_ELBOW, x[i2], y[i2] - 1, false, -z[i2], motor.FL_HIP);
             this.inversePositioning(motor.BL_SHOULDER, motor.BL_ELBOW, x[i1], y[i1] + 2, false);
             index++;
-        }, 0)
+            setTimeout(loop, 0);
+        }
 
         setInterval(() => {
             const memoryData = process.memoryUsage();
