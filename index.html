@@ -1,17 +1,102 @@
 <!DOCTYPE html>
 <html>
+<head>
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <style>
+        html {
+            background-color: black;
+            color: white;
+        }
+    </style>
+</head>
 <body>
 <script src="/socket.io/socket.io.js"></script>
+<center>
+<h1>Controls</h1>
+<div class="button-container">
+    <div></div>
+    <button id="forward">⬆️</button>
+    <div></div>
+    <button id="left">⬅️</button>
+    <button id="backward">⬇️</button>
+    <button id="right">➡️</button>
+</div>
+</center>
+<style>
+    .button-container {
+        display: grid;
+        grid-template-columns: 1fr 1fr 1fr;
+        flex-direction: column;
+        align-items: center;
+        width: 100%;
+    }
+
+    button {
+        margin: 5px;
+        padding: 30px 10px;
+        font-size: 4rem;
+        flex: 1 1 auto;
+        min-width: 0;
+        border: 2px solid rgba(0,0,0,0);
+        outline: none;
+        background-color: rgb(219, 190, 255);
+        transition: background-color 0.3s ease; /* add transition for smooth color change */
+        user-select: none;
+    }
+
+    button:hover {
+        background-color: rgb(200, 170, 235); /* darken the color a bit on hover */
+    }
+
+    button:active {
+        background-color: rgb(180, 150, 215); /* darken the color more on click */
+        border: 2px solid #5f00bc;
+    }
+
+    @media (min-width: 576px) {
+        .button-container {
+            max-width: 500px;
+        }
+    }
+</style>
 <script>
+
     const socket = io();
 
+    const allowedKeys = ["W", "A", "S", "D", " "]
+
+    function getKeyCode(str) {
+        return str.charCodeAt(0);
+    }
+    function getKeyString(code) {
+        return String.fromCharCode(code);
+    }
+
+    const addListener = (id, key) => {
+        document.getElementById(id).onmousedown = () => {
+            socket.emit('keydown', getKeyCode(key));
+        }
+        document.getElementById(id).onmouseup = () => {
+            socket.emit('keyup', getKeyCode(key));
+        }
+    }
+
     window.addEventListener('keydown', (event) => {
-        socket.emit('keydown', event.keyCode);
+        if (allowedKeys.includes(getKeyString(event.keyCode))) {
+            socket.emit('keydown', event.keyCode);
+        }
     });
     window.addEventListener('keyup', (event) => {
-        socket.emit('keyup', event.keyCode);
+        if (allowedKeys.includes(getKeyString(event.keyCode))) {
+            socket.emit('keyup', event.keyCode);
+        }
     });
+
+    addListener("forward", "W")
+    addListener("backward", "S")
+    addListener("left", "A")
+    addListener("right", "D")
+
 </script>
-<h1>Hello world</h1>
 </body>
 </html>
