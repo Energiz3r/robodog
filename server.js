@@ -18,8 +18,8 @@ worker.on('error', (error) => {
 });
 
 worker.on('exit', (code) => {
-    if (code !== 0)
-        console.error(`Worker stopped with exit code ${code}`);
+    if (code !== 0) console.error(`Worker stopped with exit code ${code}. Stopping server.`);
+    process.exit(0)
 });
 
 io.on('connection', (socket) => {

@@ -1,7 +1,7 @@
 var {Bezier} = require("bezier-js");
 var linspace = require("linspace");
 var ndarray = require("ndarray");
-var ServoKit = require("./servo.js");
+var ServoController = require("./servoController.js");
 
 const motor = {
     // identifies the corresponding pin location with the motor location
@@ -17,18 +17,26 @@ const motor = {
     BL_ELBOW: 9,
 }
 
+let highest = 0;
+let lowest = 0;
+
 class Gait {
     constructor() {
-        this.kit = new ServoKit(16);
+        this.servoController = new ServoController();
         this.upper_leg_length = 10;
         this.lower_leg_length = 10.5;
-        for (let i = 0; i < 10; i++) {
-            this.kit.servo[i].set_pulse_width_range(500, 2500);
-        }
     }
 
     setAngle(motor_id, degrees) {
-        this.kit.servo[motor_id].setAngle(degrees, motor_id === 0);
+        // if (degrees > highest) {
+        //     highest = degrees;
+        //     console.log("new highest", degrees)
+        // }
+        // if (degrees < lowest) {
+        //     lowest = degrees;
+        //     console.log("new lowest", degrees)
+        // }
+        this.servoController.servo[motor_id].setAngle(degrees);
     }
 
     radToDegree(rad) {
@@ -87,15 +95,14 @@ class Gait {
                 theta_hip = 90 + this.radToDegree(thetaz);
             }
         }
+
+        //console.log("theta shoulder:",theta_shoulder,"\ttheta_elbow:",theta_elbow, "\ttheta_hip:", theta_hip);
         this.setAngle(shoulder, theta_shoulder);
         this.setAngle(elbow, theta_elbow);
         if (hip) {
             this.setAngle(hip, theta_hip);
         }
-        // console.log("theta shoulder:",theta_shoulder,"\ttheta_elbow:",theta_elbow);
-        return [theta_shoulder, theta_elbow];
     }
-
 
     leg_position(self, leg_id, x, y, z = 0) {
         if (leg_id === 'FL')
@@ -112,12 +119,7 @@ class Gait {
 
         const s_vals = linspace(0.0, 1.0, 20);
 
-        // const step_nodes = ndarray(
-        //     [-1.0, -1.0, 1.0, 1.0,
-        //         -1.0, -1.0, 1.0, 1.0,
-        //         -15.0, -10, -10, -15.0],
-        //     [3, 4]
-        // );
+
         const step_nodes = [
             {x: -1.0, y: -1.0, z: -15.0},
             {x: -1.0, y: -1.0, z: -10.0},
@@ -125,51 +127,38 @@ class Gait {
             {x: 1.0, y: 1.0, z: -15.0}
         ]
         const stepCurve = new Bezier(step_nodes);
-        //const step = stepCurve.evaluate(s_vals);
-        //const stepCurve = new Bezier([step_nodes.get(0, 0), step_nodes.get(1, 0), step_nodes.get(2, 0)], [step_nodes.get(0, 1), step_nodes.get(1, 1), step_nodes.get(2, 1)], [step_nodes.get(0, 2), step_nodes.get(1, 2), step_nodes.get(2, 2)], [step_nodes.get(0, 3), step_nodes.get(1, 3), step_nodes.get(2, 3)]);
         const step = s_vals.map(t => stepCurve.get(t));
 
-        // const slide_nodes = ndarray(
-        //     [1.0, -1.0,
-        //         1.0, -1.0,
-        //         -15.0, -15],
-        //     [3, 2]);
         const slide_nodes = [
             {x: 1.0, y: 1.0, z: -15.0},
             {x: -1.0, y: -1.0, z: -15.0}
         ];
         const slideCurve = new Bezier(slide_nodes);
-        //const slide = slideCurve.evaluate(s_vals);
-        //const slideCurve = new Bezier([slide_nodes.get(0, 0), slide_nodes.get(1, 0), slide_nodes.get(2, 0), slide_nodes.get(0, 1), slide_nodes.get(1, 1), slide_nodes.get(2, 1)])
         const slide = s_vals.map(t => slideCurve.get(t));
 
-        //const motion = ndarray.concat(step, slide);
         const motion = step.concat(slide)
 
         let close = false;
-        //let momentum = ndarray([0, 0, 1, 0], [4]);
-        let momentum = [0,0,1,0];
+        let momentum = [0, 0, 1, 0];
         let index = 0;
         setInterval(() => {
-            if (close) return;
-            // momentum = controller(momentum);
-            // const trajectory = ndarray.ops.mul(motion, momentum.hi(3, null));
-            // if (momentum.get(3)) {
-            //     close = true;
-            // }
-            // const x = trajectory.get(0);
-            // const z = trajectory.get(1);
-            // const y = trajectory.get(2);
+            if (close) process.exit();
 
             momentum = controller(momentum);
-            const trajectory = motion.map(point => ({x: point.x * momentum[0], y: point.y * momentum[1], z: point.z * momentum[2]}));
+            const trajectory = motion.map(point => ({
+                x: point.x * momentum[0],
+                y: point.y * momentum[1],
+                z: point.z * momentum[2]
+            }));
+
             if (momentum[3]) {
                 console.log("momentum[3] was truthy!")
                 close = true;
             }
+
             const x = trajectory.map(point => point.x);
-            const z = trajectory.map(point => point.z);
-            const y = trajectory.map(point => point.y);
+            const y = trajectory.map(point => point.z); //intentionally swapped z and y to get same result as python
+            const z = trajectory.map(point => point.y);
 
             const i1 = index % 40;
             const i2 = (index + 20) % 40;
@@ -179,6 +168,7 @@ class Gait {
             this.inversePositioning(motor.FL_SHOULDER, motor.FL_ELBOW, x[i2], y[i2] - 1, false, -z[i2], motor.FL_HIP);
             this.inversePositioning(motor.BL_SHOULDER, motor.BL_ELBOW, x[i1], y[i1] + 2, false);
             index++;
+           // if (index === 1) close = true
         }, 0)
     }
 }
