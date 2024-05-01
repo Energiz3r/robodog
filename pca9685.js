@@ -64,11 +64,16 @@ class Pca9685Driver {
         //     debugFactory.enable("pca9685");
         // }
 
+        if (options.debug) {
+            this.debug = (msg) => console.log("PCA9685 DEBUG",msg)
+        } else {
+            this.debug = (msg) => null
+        }
+
         this.i2c = options.i2c;
         this.address = options.address || constants.defaultAddress;
         this.commandSubject = new Subject();
         //this.debug = debugFactory("pca9685");
-        this.debug = (msg) => console.log("DEBUG",msg)
         this.frequency = options.frequency || constants.defaultFrequency;
         const cycleLengthMicroSeconds = 1000000 / this.frequency;
         this.stepLengthMicroSeconds = cycleLengthMicroSeconds / constants.stepsPerCycle;
