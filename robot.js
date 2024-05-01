@@ -17,7 +17,7 @@ parentPort.on('message', (message) => {
     }
 });
 
-const inputController = (momentum, accel=0.05, bound=4) => {
+const inputController = (momentum, accel=0.01, bound=4) => {
     if (keysPressed.length) {
         const isPressed = (key, keyExcepted) => {
             return keysPressed.includes(key) && !keysPressed.includes(keyExcepted)
