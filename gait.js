@@ -140,26 +140,13 @@ class Gait {
         let index = 0;
 
         let lastLoopTime = process.hrtime();
-        let loopsSinceLastExec = 0;
-        let numLoops = 0;
-        let avgIgnoredLoopsPerFrame = []
-
         setInterval(() => {
             if (close) process.exit();
 
             const difference = process.hrtime(lastLoopTime)[1];
             if (difference > 500 * 1000) { // 500 microseconds
-                numLoops++;
-                avgIgnoredLoopsPerFrame.push(loopsSinceLastExec);
-                loopsSinceLastExec = 0;
                 lastLoopTime = process.hrtime();
-                if (numLoops === 100) {
-                    console.log(avgIgnoredLoopsPerFrame)
-                    avgIgnoredLoopsPerFrame = [];
-                    numLoops = 0;
-                }
             } else {
-                loopsSinceLastExec++;
                 return
             }
 
