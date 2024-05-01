@@ -79,11 +79,12 @@ class ServoController {
     servo = [];
     isReady = false;
 
-    constructor() {
+    constructor(motors) {
         console.log("Servo controller created!")
-        this.servo = Array(16)
-            .fill()
-            .map((_, i) => new Servo(i));
+        this.servo = Object.keys(motors).map((key) => {
+            console.log("Init servo", key, motors[key]);
+            return new Servo(motors[key])
+        });
         this.initialize().then(() => {
             this.servo.forEach(servo => servo.init())
             this.isReady = true;

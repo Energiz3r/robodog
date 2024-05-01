@@ -58,15 +58,15 @@ const inputController = (momentum, accel= config.accel, bound=4) => {
 
 const startRobot = () => {
     console.log("Robodog started!");
-    const servoController = new ServoController();
+    const servoController = new ServoController(config.motors);
     const checkServoIsReady = () => {
         if (servoController.isReady) {
             console.log("Servos ready!")
-            const gaitController = new Gait(servoController);
+            const gaitController = new Gait(servoController, config.motors);
             gaitController.calibrate();
-            if (!config.calibrationOnly) {
-                gaitController.move(inputController);
-            }
+            // if (!config.calibrationOnly) {
+            //     gaitController.move(inputController);
+            // }
         } else {
             console.log("Waiting for servo ready...")
             setTimeout(checkServoIsReady, 250)

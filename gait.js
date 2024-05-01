@@ -3,22 +3,10 @@ var linspace = require("linspace");
 
 const formatMemoryUsage = (data) => `${Math.round(data / 1024 / 1024 * 100) / 100} MB`;
 
-const motor = {
-    // identifies the corresponding pin location with the motor location
-    FR_SHOULDER: 0,
-    FR_ELBOW: 1,
-    FR_HIP: 2,
-    FL_SHOULDER: 3,
-    FL_ELBOW: 4,
-    FL_HIP: 5,
-    BR_SHOULDER: 6,
-    BR_ELBOW: 7,
-    BL_SHOULDER: 8,
-    BL_ELBOW: 9,
-}
-
 class Gait {
-    constructor(servoController) {
+    constructor(servoController, motors) {
+        console.log("Servo controller created!")
+        this.motors = motors
         this.servoController = servoController;
         this.upper_leg_length = 10;
         this.lower_leg_length = 10.5;
@@ -43,16 +31,19 @@ class Gait {
     }
 
     calibrate() {
-        this.setAngle(motor.FR_SHOULDER, 60);
-        this.setAngle(motor.FR_ELBOW, 90);
-        this.setAngle(motor.FR_HIP, 90);
-        this.setAngle(motor.FL_SHOULDER, 120);
-        this.setAngle(motor.FL_ELBOW, 90);
-        this.setAngle(motor.FL_HIP, 90);
-        this.setAngle(motor.BR_SHOULDER, 60);
-        this.setAngle(motor.BR_ELBOW, 90);
-        this.setAngle(motor.BL_SHOULDER, 120);
-        this.setAngle(motor.BL_ELBOW, 90);
+        console.log("motors",this.motors)
+        this.setAngle(this.motors.FR_SHOULDER, 60);
+        this.setAngle(this.motors.FR_ELBOW, 90);
+        this.setAngle(this.motors.FR_HIP, 90);
+        this.setAngle(this.motors.FL_SHOULDER, 120);
+        this.setAngle(this.motors.FL_ELBOW, 90);
+        this.setAngle(this.motors.FL_HIP, 90);
+        this.setAngle(this.motors.BR_SHOULDER, 60);
+        this.setAngle(this.motors.BR_ELBOW, 90);
+        // this.setAngle(this.motors.BR_HIP, 90); // unused
+        this.setAngle(this.motors.BL_SHOULDER, 120);
+        this.setAngle(this.motors.BL_ELBOW, 90);
+        // this.setAngle(this.motors.BL_HIP, 90); // unused
     }
 
     inversePositioning(shoulder, elbow, x, y, right, z = 0, hip = null) {
@@ -105,13 +96,13 @@ class Gait {
 
     leg_position(self, leg_id, x, y, z = 0) {
         if (leg_id === 'FL')
-            this.inversePositioning(motor.FL_SHOULDER, motor.FL_ELBOW, x, y, false, z, motor.FL_HIP)
+            this.inversePositioning(this.motors.FL_SHOULDER, this.motors.FL_ELBOW, x, y, false, z, this.motors.FL_HIP)
         if (leg_id === 'FR')
-            this.inversePositioning(motor.FR_SHOULDER, motor.FR_ELBOW, x, y, true, z, motor.FR_HIP)
+            this.inversePositioning(this.motors.FR_SHOULDER, this.motors.FR_ELBOW, x, y, true, z, this.motors.FR_HIP)
         if (leg_id === 'BL')
-            this.inversePositioning(motor.BL_SHOULDER, motor.BL_ELBOW, x, y, false)
+            this.inversePositioning(this.motors.BL_SHOULDER, this.motors.BL_ELBOW, x, y, false)
         if (leg_id === 'BR')
-            this.inversePositioning(motor.BR_SHOULDER, motor.BR_ELBOW, x, y, true)
+            this.inversePositioning(this.motors.BR_SHOULDER, this.motors.BR_ELBOW, x, y, true)
     }
 
     move(controller) {
@@ -173,10 +164,10 @@ class Gait {
             const i1 = index % 40;
             const i2 = (index + 20) % 40;
 
-            this.inversePositioning(motor.FR_SHOULDER, motor.FR_ELBOW, x[i1], y[i1] - 1, true, z[i1], motor.FR_HIP);
-            this.inversePositioning(motor.BR_SHOULDER, motor.BR_ELBOW, x[i2], y[i2] + 2, true);
-            this.inversePositioning(motor.FL_SHOULDER, motor.FL_ELBOW, x[i2], y[i2] - 1, false, -z[i2], motor.FL_HIP);
-            this.inversePositioning(motor.BL_SHOULDER, motor.BL_ELBOW, x[i1], y[i1] + 2, false);
+            this.inversePositioning(this.motors.FR_SHOULDER, this.motors.FR_ELBOW, x[i1], y[i1] - 1, true, z[i1], this.motors.FR_HIP);
+            this.inversePositioning(this.motors.BR_SHOULDER, this.motors.BR_ELBOW, x[i2], y[i2] + 2, true);
+            this.inversePositioning(this.motors.FL_SHOULDER, this.motors.FL_ELBOW, x[i2], y[i2] - 1, false, -z[i2], this.motors.FL_HIP);
+            this.inversePositioning(this.motors.BL_SHOULDER, this.motors.BL_ELBOW, x[i1], y[i1] + 2, false);
             index++;
 
             setTimeout(loop, 35)
