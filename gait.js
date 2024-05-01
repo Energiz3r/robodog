@@ -133,7 +133,6 @@ class Gait {
         let lastLoopTime = process.hrtime();
         const loop = () => {
             if (close) return //process.exit();
-            console.log("loop")
 
             const difference = process.hrtime(lastLoopTime)[1];
             if (difference > 500 * 1000) { // 500 microseconds
@@ -168,6 +167,7 @@ class Gait {
             index++;
             setTimeout(loop, 0);
         }
+        loop()
 
         setInterval(() => {
             const memoryData = process.memoryUsage();
