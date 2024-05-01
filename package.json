@@ -9,8 +9,7 @@
   "author": "",
   "license": "ISC",
   "optionalDependencies": {
-    "i2c-bus": "^5.2.3",
-    "pca9685": "^5.0.0"
+    "i2c-bus": "^5.2.3"
   },
   "dependencies": {
     "rxjs": "^6.6.3",
