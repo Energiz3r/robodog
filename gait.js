@@ -168,6 +168,7 @@ class Gait {
             if (index === 5000) {
                 console.log("Loop stopping...")
                 close = true
+                index = 0
                 setTimeout(() => close = false, 5000);
             }
         }, 0)
