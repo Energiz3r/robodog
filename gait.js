@@ -166,8 +166,9 @@ class Gait {
             this.inversePositioning(motor.BL_SHOULDER, motor.BL_ELBOW, x[i1], y[i1] + 2, false);
             index++;
             if (index === 5000) {
-                console.log("Finished indexing")
+                console.log("Loop stopping...")
                 close = true
+                setTimeout(() => close = false, 5000);
             }
         }, 0)
 
