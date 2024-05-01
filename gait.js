@@ -131,22 +131,14 @@ class Gait {
         let index = 0;
 
         let lastLoopTime = process.hrtime();
-        let lastCharTime = process.hrtime();
         setInterval(() => {
-            if (close) process.exit();
+            if (close) return //process.exit();
 
             const difference = process.hrtime(lastLoopTime)[1];
             if (difference > 500 * 1000) { // 500 microseconds
                 lastLoopTime = process.hrtime();
             } else {
                 return
-            }
-
-            const differenceChar = process.hrtime(lastCharTime)[0];
-            if (differenceChar > 0 || lastCharTime === 0) { // 500 microseconds
-                lastCharTime = process.hrtime();
-                const memoryData = process.memoryUsage();
-                console.log(`Heap total: ${formatMemoryUsage(memoryData.heapTotal)}`);
             }
 
             momentum = controller(momentum);
@@ -173,8 +165,13 @@ class Gait {
             this.inversePositioning(motor.FL_SHOULDER, motor.FL_ELBOW, x[i2], y[i2] - 1, false, -z[i2], motor.FL_HIP);
             this.inversePositioning(motor.BL_SHOULDER, motor.BL_ELBOW, x[i1], y[i1] + 2, false);
             index++;
-           // if (index === 1) close = true
+            if (index === 500) close = true
         }, 0)
+
+        setInterval(() => {
+            const memoryData = process.memoryUsage();
+            console.log(`Heap total: ${formatMemoryUsage(memoryData.heapTotal)}`, close ? "NOT running" : "running");
+        }, 1000)
     }
 }
 
