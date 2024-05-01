@@ -2,7 +2,7 @@
   "name": "robodog",
   "version": "1.0.0",
   "description": "",
-  "main": "run.js",
+  "main": "server.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
@@ -13,9 +13,10 @@
     "pca9685": "^5.0.0"
   },
   "dependencies": {
-    "bezier": "^0.1.0",
+    "bezier-js": "^6.1.4",
+    "express": "^4.19.2",
     "linspace": "^1.0.2",
     "ndarray": "^1.0.19",
-    "numjs": "^0.16.1"
+    "socket.io": "^4.7.5"
   }
 }

@@ -1,0 +1,17 @@
+<!DOCTYPE html>
+<html>
+<body>
+<script src="/socket.io/socket.io.js"></script>
+<script>
+    const socket = io();
+
+    window.addEventListener('keydown', (event) => {
+        socket.emit('keydown', event.keyCode);
+    });
+    window.addEventListener('keyup', (event) => {
+        socket.emit('keyup', event.keyCode);
+    });
+</script>
+<h1>Hello world</h1>
+</body>
+</html>
