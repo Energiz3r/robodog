@@ -1,6 +1,7 @@
 const { parentPort } = require('worker_threads');
 const Gait = require("./gait.js");
 const ServoController = require("./servoController");
+const config = require("./config");
 
 let keysPressed = [];
 
@@ -20,7 +21,7 @@ parentPort.on('message', (message) => {
     }
 });
 
-const inputController = (momentum, accel=0.20, bound=4) => {
+const inputController = (momentum, accel= config.accel, bound=4) => {
     if (keysPressed.length) {
         const isPressed = (key, keyExcepted) => {
             return keysPressed.includes(key) && !keysPressed.includes(keyExcepted)
@@ -63,7 +64,9 @@ const startRobot = () => {
             console.log("Servos ready!")
             const gaitController = new Gait(servoController);
             gaitController.calibrate();
-            gaitController.move(inputController);
+            if (!config.calibrationOnly) {
+                gaitController.move(inputController);
+            }
         } else {
             console.log("Waiting for servo ready...")
             setTimeout(checkServoIsReady, 250)
