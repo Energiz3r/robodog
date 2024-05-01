@@ -170,12 +170,12 @@ class Pca9685Driver {
 
         this.debug("Setting PWM channel, channel: %d, onStep: %d, offStep: %d", channel, onStep, offStep);
 
-        // this.send([
-        //     { command: constants.channel0OnStepLowByte + constants.registersPerChannel * channel, byte: onStep & 0xFF },
-        //     { command: constants.channel0OnStepHighByte + constants.registersPerChannel * channel, byte: (onStep >> 8) & 0x0F },
-        //     { command: constants.channel0OffStepLowByte + constants.registersPerChannel * channel, byte: offStep & 0xFF },
-        //     { command: constants.channel0OffStepHighByte + constants.registersPerChannel * channel, byte: (offStep >> 8) & 0x0F }
-        // ], callback || defaultCallback);
+        this.send([
+            { command: constants.channel0OnStepLowByte + constants.registersPerChannel * channel, byte: onStep & 0xFF },
+            { command: constants.channel0OnStepHighByte + constants.registersPerChannel * channel, byte: (onStep >> 8) & 0x0F },
+            { command: constants.channel0OffStepLowByte + constants.registersPerChannel * channel, byte: offStep & 0xFF },
+            { command: constants.channel0OffStepHighByte + constants.registersPerChannel * channel, byte: (offStep >> 8) & 0x0F }
+        ], callback || defaultCallback);
     }
 
 
