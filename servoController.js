@@ -8,31 +8,35 @@ const mapNumber = (number, in_min, in_max, out_min, out_max) => {
     return (number - in_min) * (out_max - out_min) / (in_max - in_min) + out_min;
 }
 
+const dummyI2C = {
+    openSync: (val) => {
+    }
+}
+
+class dummyPCA {
+    constructor(options, callback) {
+        console.log('Dummy Pca9685Driver class');
+        callback(false)
+    }
+
+    setPulseRange(channel, low, hi, callback) {
+        //console.log("Dummy channel set pulse range", channel, low, hi)
+    }
+
+    setDutyCycle(channel, dutyCycle) {
+        //console.log("Dummy channel set dutyCycle", channel, dutyCycle)
+    }
+}
+
 try {
     i2cBus = require('i2c-bus');
-    Pca9685Driver = require('pca9685').Pca9685Driver;
+    //Pca9685Driver = require('pca9685').Pca9685Driver;
+    Pca9685Driver = dummyPCA
     console.log(chalk.green('Hardware libraries OK!'));
 } catch (error) {
     console.log(chalk.yellow('Hardware libraries not available! Simulating servo output.'));
-    i2cBus = {
-        openSync: (val) => {
-        }
-    }
-    Pca9685Driver = class {
-        constructor(options, callback) {
-            console.log('Dummy Pca9685Driver class');
-            callback(false)
-        }
-
-        setPulseRange(channel, low, hi, callback) {
-            //console.log("Dummy channel set pulse range", channel, low, hi)
-        }
-
-        setDutyCycle(channel, dutyCycle) {
-            //console.log("Dummy channel set dutyCycle", channel, dutyCycle)
-        }
-
-    }
+    i2cBus = dummyI2C
+    Pca9685Driver = dummyPCA
 }
 
 const pca9685Options = {
