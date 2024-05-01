@@ -39,7 +39,7 @@ const pca9685Options = {
     i2c: i2cBus.openSync(0),
     address: 0x40,
     frequency: 50,
-    debug: true
+    debug: false
 };
 
 class Servo {
