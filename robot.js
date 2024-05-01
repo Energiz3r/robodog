@@ -64,8 +64,7 @@ const startRobot = () => {
             console.log("Servos ready!")
             const gaitController = new Gait(servoController, config.motors);
             gaitController.calibrate();
-            const args = process.argv.slice(2);
-            if (!args.includes("calibrate")) {
+            if (!config.calibrate) {
                 gaitController.move(inputController);
             }
         } else {
