@@ -1,6 +1,5 @@
 var {Bezier} = require("bezier-js");
 var linspace = require("linspace");
-var ServoController = require("./servoController.js");
 
 const formatMemoryUsage = (data) => `${Math.round(data / 1024 / 1024 * 100) / 100} MB`;
 
@@ -158,7 +157,7 @@ class Gait {
             }
 
             const x = trajectory.map(point => point.x);
-            const y = trajectory.map(point => point.z); //intentionally swapped z and y to get same result as python
+            const y = trajectory.map(point => point.z); // swapped z and y to be same as python
             const z = trajectory.map(point => point.y);
 
             const i1 = index % 40;
