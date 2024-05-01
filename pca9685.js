@@ -1,6 +1,3 @@
-//import * as debugFactory from "debug";
-// import { Observable, Subject } from "rxjs";
-// import { concatMap } from "rxjs/operators";
 const { Observable, Subject } = require("rxjs");
 const { concatMap } = require("rxjs/operators");
 
@@ -222,7 +219,7 @@ class Pca9685Driver {
 
         const offStep = (onStep + pulseLengthInSteps) % constants.stepsPerCycle;
 
-        this.setPulseRange(channel, onStep, offStep, callback);
+        //this.setPulseRange(channel, onStep, offStep, callback);
     }
 
 
