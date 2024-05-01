@@ -32,9 +32,10 @@ class Gait {
                 this.writingServos = this.writingServos.filter(id => id !== motor_id)
             }
             this.servoController.servo[motor_id].setAngle(degrees, callback);
-        } else {
-            console.log("Tried to overwrite a servo")
         }
+        // else {
+        //     console.log("Tried to overwrite a servo")
+        // }
     }
 
     radToDegree(rad) {
