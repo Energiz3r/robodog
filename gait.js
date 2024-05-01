@@ -132,7 +132,10 @@ class Gait {
 
         let lastLoopTime = process.hrtime();
         const loop = () => {
-            if (close) return //process.exit();
+            if (close) {
+                console.log("Loop was terminated.")
+                return //process.exit();
+            }
 
             const difference = process.hrtime(lastLoopTime)[1];
             if (difference > 1000 * 1000) { // 500 microseconds
