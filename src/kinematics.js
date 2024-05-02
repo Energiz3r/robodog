@@ -47,8 +47,8 @@ const applyMomentumToCurve3d = (momentum, curve3d) => {
     }));
 
     const x = trajectory.map(point => point.x);
-    const y = trajectory.map(point => point.z); // swapped z and y to be same as python
-    const z = trajectory.map(point => point.y);
+    const y = trajectory.map(point => point.y); // swapped z and y to be same as python
+    const z = trajectory.map(point => point.z);
 
     return { x, y, z }
 }
