@@ -7,24 +7,24 @@ const inputController = (momentum, accel = config.accel, bound = 4) => {
         const isPressed = (key, keyExcepted) => {
             return keysPressed.includes(key) && !keysPressed.includes(keyExcepted)
         }
-        let isAnyPressed = false;
+        //let isAnyPressed = false;
         if (isPressed("W", "S")) {
             momentum.longitudinal = Math.min(momentum.longitudinal + accel, bound)
-            isAnyPressed = true;
+            //isAnyPressed = true;
         } else if (isPressed("S", "W")) {
             momentum.longitudinal = Math.max(momentum.longitudinal - accel, -bound)
-            isAnyPressed = true
+            //isAnyPressed = true
         }
         if (isPressed("A", "D")) {
             momentum.lateral = Math.max(momentum.lateral - accel, -bound)
-            isAnyPressed = true
+            //isAnyPressed = true
         } else if (isPressed("D", "A")) {
             momentum.lateral = Math.min(momentum.lateral + accel, bound)
-            isAnyPressed = true
+            //isAnyPressed = true
         }
-        if (isAnyPressed) {
-            //momentum.vertical = Math.min(momentum.vertical + accel * 10, 1)
-        }
+        // if (isAnyPressed) {
+        //     //momentum.vertical = Math.min(momentum.vertical + accel * 10, 1)
+        // }
     } else {
         const decelerate = (val) => {
             const func = val > 0 ? Math.floor : Math.ceil;

@@ -74,12 +74,12 @@
     }
 
     const addListener = (id, key) => {
-        document.getElementById(id).onmousedown = () => {
-            socket.emit('keydown', getKeyCode(key));
-        }
-        document.getElementById(id).onmouseup = () => {
-            socket.emit('keyup', getKeyCode(key));
-        }
+        // document.getElementById(id).onmousedown = () => {
+        //     socket.emit('keydown', getKeyCode(key));
+        // }
+        // document.getElementById(id).onmouseup = () => {
+        //     socket.emit('keyup', getKeyCode(key));
+        // }
         document.getElementById(id).ontouchstart = () => {
             socket.emit('keydown', getKeyCode(key));
         }
