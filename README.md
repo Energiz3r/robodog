@@ -86,6 +86,12 @@ Hardware-specific dependencies are set as optional in `package.json`:
 ```
 You can therefore do the install on a desktop OS and run the software, but i2c and the PCA9685 will be simulated and do nothing - you will see a message in console to confirm whether or not the hardware dependencies are OK or being simulated. All of the kinematic calculations are still executed so this was handy for development.
 
+## Gait Visualisation
+
+run `node visualise.js` to see the gait visualised on a 3D plot
+
+Edit `visualise.js` to modify which gait file is visualised (default `gaits/basic.js`)
+
 ## Development Status
 
 Overall status

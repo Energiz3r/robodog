@@ -1,16 +1,12 @@
-var chalk = require('chalk');
+const chalk = require('chalk');
 const config = require('../config');
+const utils = require('./utils');
 
 let i2cBus;
 let Pca9685Driver;
 let pca9685ODevice;
 
-const mapNumber = (number, in_min, in_max, out_min, out_max) => {
-    return (number - in_min) * (out_max - out_min) / (in_max - in_min) + out_min;
-}
-
-
-
+// load dummy drivers if modules aren't installed
 try {
     i2cBus = require('i2c-bus');
     Pca9685Driver = require('pca9685').Pca9685Driver;
@@ -32,6 +28,7 @@ class Servo {
 
     channel = 0;
     isReady = false;
+    isBusy = false;
 
     constructor(channel) {
         this.channel = channel;
@@ -42,27 +39,35 @@ class Servo {
         this.isReady = true;
     }
 
-    setAngle(degrees, callback) {
-        const pulseLength = mapNumber(degrees, 0, 180, 500, 2500)
-        pca9685ODevice.setPulseLength(this.channel, pulseLength, 2500, callback)
+    setAngle(degrees) {
+        // writing to the servo fast repeatedly without waiting until the callback is resolved causes memory overflow
+        if (!this.isBusy) {
+            const pulseLength = utils.mapNumber(degrees, 0, 180, 500, 2500)
+            pca9685ODevice.setPulseLength(this.channel, pulseLength, 2500, () => this.isBusy = false)
+        }
     }
 }
 
 class ServoController {
-    servo = [];
+    servos = [];
     isReady = false;
 
-    constructor(motors) {
-        this.servo = Object.keys(motors).map((key) => {
-            return new Servo(motors[key])
+    constructor() {
+        this.servos = Object.keys(config.motors).map((key) => {
+            return new Servo(config.motors[key].channel)
         });
         this.initialize().then(() => {
-            this.servo.forEach(servo => servo.init())
+            this.servos.forEach(servo => servo.init())
             this.isReady = true;
         }).catch(err => {
             console.error("Error initializing PCA9685!", err);
             process.exit(-1);
         })
+    }
+
+    setAngle(channel, degrees){
+        const servo = this.servos.find(servo => servo.channel === channel)
+        servo.setAngle(degrees);
     }
 
     initialize() {

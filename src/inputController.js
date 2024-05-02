@@ -2,43 +2,51 @@ const config = require("../config");
 
 let keysPressed = [];
 
-const inputController = (momentum, accel= config.accel, bound=4) => {
+const inputController = (momentum, accel = config.accel, bound = 4) => {
     if (keysPressed.length) {
         const isPressed = (key, keyExcepted) => {
             return keysPressed.includes(key) && !keysPressed.includes(keyExcepted)
         }
-        if (isPressed("W", "S"))
-            momentum[0] = Math.min(momentum[0] + accel, bound)
-        else if (isPressed("S", "W"))
-            momentum[0] = Math.max(momentum[0] - accel, -bound)
-        if (isPressed("A", "D"))
-            momentum[1] = Math.max(momentum[1] - accel, -bound)
-        else if (isPressed("D", "A"))
-            momentum[1] = Math.min(momentum[1] + accel, bound)
+        let isAnyPressed = false;
+        if (isPressed("W", "S")) {
+            momentum.longitudinal = Math.min(momentum.longitudinal + accel, bound)
+            isAnyPressed = true;
+        } else if (isPressed("S", "W")) {
+            momentum.longitudinal = Math.max(momentum.longitudinal - accel, -bound)
+            isAnyPressed = true
+        }
+        if (isPressed("A", "D")) {
+            momentum.lateral = Math.max(momentum.lateral - accel, -bound)
+            isAnyPressed = true
+        } else if (isPressed("D", "A")) {
+            momentum.lateral = Math.min(momentum.lateral + accel, bound)
+            isAnyPressed = true
+        }
+        if (isAnyPressed) {
+            momentum.vertical = Math.min(momentum.vertical + accel * 10, 2)
+        }
     } else {
         const decelerate = (val) => {
             const func = val > 0 ? Math.floor : Math.ceil;
             const mom = func(val * 100) / 100
             if (mom > 0) {
-                //console.log("mom - accel", mom - accel)
                 if (mom - accel > 0) return mom - accel
                 else return 0
-            }
-            else if (mom < 0) {
+            } else if (mom < 0) {
                 if (mom + accel < 0) return mom + accel
                 else return 0
-            }
-            else return 0
+            } else return 0
         }
-        momentum[0] = decelerate(momentum[0])
-        momentum[1] = decelerate(momentum[1])
+        momentum.longitudinal = decelerate(momentum.longitudinal)
+        momentum.lateral = decelerate(momentum.lateral)
+        momentum.vertical = decelerate(momentum.vertical)
     }
     //console.log("momentum", momentum)
     return momentum
 }
 
 const keyPressHandler = (message) => {
-    const { action, keyCode } = message;
+    const {action, keyCode} = message;
     let keyChar = String.fromCharCode(keyCode);
     if (action === "keydown") {
         if (!keysPressed.includes(keyChar)) {
@@ -53,4 +61,4 @@ const keyPressHandler = (message) => {
     }
 }
 
-module.exports = { inputController, keyPressHandler }
+module.exports = {inputController, keyPressHandler}
