@@ -41,7 +41,7 @@ const inputController = (momentum, accel = config.accel, bound = 4) => {
         momentum.lateral = decelerate(momentum.lateral)
         //momentum.vertical = decelerate(momentum.vertical)
     }
-    //console.log("momentum", momentum)
+    console.log("momentum", momentum)
     return momentum
 }
 

@@ -20,6 +20,8 @@ const step = s_vals.map(t => stepCurve.get(t));
 
 const slide_nodes = [
     {x: xmax, y: xmax, z: -zmax},
+    {x: xmax, y: xmax, z: -13},
+    {x: -xmax, y: -xmax, z: -13},
     {x: -xmax, y: -xmax, z: -zmax}
 ];
 const slideCurve = new Bezier(slide_nodes);
