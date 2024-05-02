@@ -34,7 +34,7 @@ class GaitController {
     move(controller) {
 
         let shouldKillProcess = false;
-        let momentum = { longitudinal: 0, lateral: 0, vertical: 0, halted: false };
+        let momentum = { longitudinal: 0, lateral: 0, vertical: 1, halted: false };
         let index = 0;
 
         const loop = () => {
