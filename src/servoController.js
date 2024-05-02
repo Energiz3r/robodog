@@ -51,6 +51,7 @@ class Servo {
 class ServoController {
     servos = [];
     isReady = false;
+    isPowerOn = true;
 
     constructor() {
         this.servos = Object.keys(config.motors).map((key) => {
@@ -66,8 +67,20 @@ class ServoController {
     }
 
     setAngle(channel, degrees){
-        const servo = this.servos.find(servo => servo.channel === channel)
-        servo.setAngle(degrees);
+        if (this.isPowerOn) {
+            const servo = this.servos.find(servo => servo.channel === channel)
+            servo.setAngle(degrees);
+        }
+    }
+
+    setPower(powerOn) {
+        if (powerOn) {
+            this.isPowerOn = true
+            this.servos.forEach(servo => pca9685ODevice.channelOn(servo.channel))
+        } else {
+            this.isPowerOn = false
+            pca9685ODevice.allChannelsOff()
+        }
     }
 
     initialize() {

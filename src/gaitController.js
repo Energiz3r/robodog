@@ -43,12 +43,22 @@ class GaitController {
                 process.exit();
             }
 
+            momentum = controller(momentum);
+
             if (momentum.halted) {
+                if (this.servoController.isPowerOn) {
+                    console.log("Power OFF")
+                    this.servoController.setPower(false)
+                }
                 setTimeout(loop, loopDelayMs)
                 return
+            } else {
+                if (!this.servoController.isPowerOn) {
+                    console.log("Power ON")
+                    this.servoController.setPower(true)
+                }
             }
 
-            momentum = controller(momentum);
             const curvePoints = applyMomentumToCurve3d(momentum, basicGait)
             const { fl, fr, bl, br } = mapCoordsToLegs(index, curvePoints)
 

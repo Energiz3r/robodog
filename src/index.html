@@ -20,6 +20,9 @@
     <button id="left">⬅️</button>
     <button id="backward">⬇️</button>
     <button id="right">➡️</button>
+    <div></div>
+    <button id="aux">⚡️</button>
+    <div></div>
 </div>
 <p>Buttons respond to mouse and touch events</p>
 </center>
@@ -74,12 +77,12 @@
     }
 
     const addListener = (id, key) => {
-        // document.getElementById(id).onmousedown = () => {
-        //     socket.emit('keydown', getKeyCode(key));
-        // }
-        // document.getElementById(id).onmouseup = () => {
-        //     socket.emit('keyup', getKeyCode(key));
-        // }
+        document.getElementById(id).onmousedown = () => {
+            socket.emit('keydown', getKeyCode(key));
+        }
+        document.getElementById(id).onmouseup = () => {
+            socket.emit('keyup', getKeyCode(key));
+        }
         document.getElementById(id).ontouchstart = () => {
             socket.emit('keydown', getKeyCode(key));
         }
@@ -103,6 +106,7 @@
     addListener("backward", "S")
     addListener("left", "A")
     addListener("right", "D")
+    addListener("aux", " ")
 
 </script>
 </body>

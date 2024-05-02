@@ -7,20 +7,26 @@ const inputController = (momentum, accel = config.accel, bound = 4) => {
         const isPressed = (key, keyExcepted) => {
             return keysPressed.includes(key) && !keysPressed.includes(keyExcepted)
         }
-        //let isAnyPressed = false;
-        if (isPressed("W", "S")) {
-            momentum.longitudinal = Math.min(momentum.longitudinal + accel, bound)
-            //isAnyPressed = true;
-        } else if (isPressed("S", "W")) {
-            momentum.longitudinal = Math.max(momentum.longitudinal - accel, -bound)
-            //isAnyPressed = true
+        if (isPressed(" ", "8")) {
+            momentum.halted = !momentum.halted
+            keysPressed = [];
         }
-        if (isPressed("A", "D")) {
-            momentum.lateral = Math.max(momentum.lateral - accel, -bound)
-            //isAnyPressed = true
-        } else if (isPressed("D", "A")) {
-            momentum.lateral = Math.min(momentum.lateral + accel, bound)
-            //isAnyPressed = true
+        //let isAnyPressed = false;
+        if (!momentum.halted) {
+            if (isPressed("W", "S")) {
+                momentum.longitudinal = Math.min(momentum.longitudinal + accel, bound)
+                //isAnyPressed = true;
+            } else if (isPressed("S", "W")) {
+                momentum.longitudinal = Math.max(momentum.longitudinal - accel, -bound)
+                //isAnyPressed = true
+            }
+            if (isPressed("A", "D")) {
+                momentum.lateral = Math.max(momentum.lateral - accel, -bound)
+                //isAnyPressed = true
+            } else if (isPressed("D", "A")) {
+                momentum.lateral = Math.min(momentum.lateral + accel, bound)
+                //isAnyPressed = true
+            }
         }
         // if (isAnyPressed) {
         //     //momentum.vertical = Math.min(momentum.vertical + accel * 10, 1)
@@ -41,7 +47,7 @@ const inputController = (momentum, accel = config.accel, bound = 4) => {
         momentum.lateral = decelerate(momentum.lateral)
         //momentum.vertical = decelerate(momentum.vertical)
     }
-    console.log("momentum", momentum)
+    //console.log("momentum", momentum)
     return momentum
 }
 

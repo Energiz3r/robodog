@@ -12,6 +12,9 @@ class dummyPCA {
     }
     setPulseLength(channel, pulseLength) {
     }
+    allChannelsOff(){
+    }
+    channelOn(channel){}
 }
 
 module.exports = { dummyI2C, dummyPCA }
