@@ -55,7 +55,7 @@ const keyPressHandler = (message) => {
         }
     } else if (action === "keyup") {
         if (keysPressed.includes(keyChar)) {
-            console.log("Web UI: Keyup", keyChar)
+            //console.log("Web UI: Keyup", keyChar)
             keysPressed = keysPressed.filter(key => key !== keyChar);
         }
     }

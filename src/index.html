@@ -21,6 +21,7 @@
     <button id="backward">⬇️</button>
     <button id="right">➡️</button>
 </div>
+<p>Buttons respond to mouse and touch events</p>
 </center>
 <style>
     .button-container {
@@ -77,6 +78,12 @@
             socket.emit('keydown', getKeyCode(key));
         }
         document.getElementById(id).onmouseup = () => {
+            socket.emit('keyup', getKeyCode(key));
+        }
+        document.getElementById(id).ontouchstart = () => {
+            socket.emit('keydown', getKeyCode(key));
+        }
+        document.getElementById(id).ontouchend = () => {
             socket.emit('keyup', getKeyCode(key));
         }
     }
