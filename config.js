@@ -1,7 +1,7 @@
 const config = {
     port: 3000,
     accel: 0.20,
-    speed: 26,
+    loopDelayMs: 10,
     calibrate: false,
     motors: {
         // identifies the corresponding pin location with the motor location

@@ -3,8 +3,6 @@ var {Bezier} = require("bezier-js");
 var linspace = require("linspace");
 var config = require("../config");
 
-const formatMemoryUsage = (data) => `${Math.round(data / 1024 / 1024 * 100) / 100} MB`;
-
 class Gait {
     constructor(servoController, motors) {
         this.motors = motors
@@ -15,17 +13,14 @@ class Gait {
     }
 
     setAngle(motor_id, degrees) {
+        // don't send another setAngle to a servo until the driver has resolved the callback, otherwise memory overflows
         if (!this.writingServos.includes(motor_id)) {
             this.writingServos.push(motor_id)
-            const callback = () => {
-                this.writingServos = this.writingServos.filter(id => id !== motor_id)
-            }
             const servo = this.servoController.servo.find(servo => servo.channel === motor_id)
-            servo.setAngle(degrees, callback);
+            servo.setAngle(degrees, () => {
+                this.writingServos = this.writingServos.filter(id => id !== motor_id)
+            });
         }
-        // else {
-        //     console.log("Tried to overwrite a servo")
-        // }
     }
 
     radToDegree(rad) {
@@ -95,14 +90,14 @@ class Gait {
         }
     }
 
-    leg_position(self, leg_id, x, y, z = 0) {
-        if (leg_id === 'FL')
+    setLegPosition(legId, x, y, z = 0) {
+        if (legId === 'FL')
             this.inversePositioning(this.motors.FL_SHOULDER, this.motors.FL_ELBOW, x, y, false, z, this.motors.FL_HIP)
-        if (leg_id === 'FR')
+        if (legId === 'FR')
             this.inversePositioning(this.motors.FR_SHOULDER, this.motors.FR_ELBOW, x, y, true, z, this.motors.FR_HIP)
-        if (leg_id === 'BL')
+        if (legId === 'BL')
             this.inversePositioning(this.motors.BL_SHOULDER, this.motors.BL_ELBOW, x, y, false)
-        if (leg_id === 'BR')
+        if (legId === 'BR')
             this.inversePositioning(this.motors.BR_SHOULDER, this.motors.BR_ELBOW, x, y, true)
     }
 
@@ -165,20 +160,14 @@ class Gait {
             const i1 = index % 40;
             const i2 = (index + 20) % 40;
 
-            this.inversePositioning(this.motors.FR_SHOULDER, this.motors.FR_ELBOW, x[i1], y[i1] - 1, true, z[i1], this.motors.FR_HIP);
-            this.inversePositioning(this.motors.BR_SHOULDER, this.motors.BR_ELBOW, x[i2], y[i2] + 2, true);
-            this.inversePositioning(this.motors.FL_SHOULDER, this.motors.FL_ELBOW, x[i2], y[i2] - 1, false, -z[i2], this.motors.FL_HIP);
-            this.inversePositioning(this.motors.BL_SHOULDER, this.motors.BL_ELBOW, x[i1], y[i1] + 2, false);
+            this.setLegPosition('FL', x[i2], y[i2] - 1, z[i2])
+            this.setLegPosition('FR', x[i1], y[i1] - 1, z[i1])
+            this.setLegPosition('BL', x[i1], y[i1] + 1)
+            this.setLegPosition('BR', x[i2], y[i2] + 2)
             index++;
 
-            setTimeout(loop, config.speed)
+            setTimeout(loop, config.loopDelayMs)
         }
-
-        // // show heap usage
-        // setInterval(() => {
-        //     const memoryData = process.memoryUsage();
-        //     console.log(`Heap total: ${formatMemoryUsage(memoryData.heapTotal)}`, close ? "NOT running" : "running");
-        // }, 1000)
 
         console.log(chalk.greenBright("Robodog is running! 🐕"))
         loop()

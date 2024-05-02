@@ -11,7 +11,7 @@ app.get('/', (req, res) => {
     res.sendFile(__dirname + '/src/index.html');
 });
 
-const worker = new Worker('./src/thread.js');
+const worker = new Worker('./src/thread');
 
 worker.on('error', (error) => {
     console.error('Error in worker: ', error);

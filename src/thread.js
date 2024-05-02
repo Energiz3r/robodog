@@ -1,6 +1,6 @@
 const { parentPort } = require('worker_threads');
 var chalk = require('chalk');
-const Gait = require("./gait.js");
+const Gait = require("./gait");
 const ServoController = require("./servoController");
 const config = require("../config");
 const { inputController, keyPressHandler}  = require("./inputController");

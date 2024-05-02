@@ -24,7 +24,9 @@ Jack published code with his remix, but I had extreme difficulty and ultimately 
 
 ## Assembly
 
-Build the robot either according to Baris' or Jack's design and whatever parts you may already have or can buy locally. This is the easy part! You can optionally 3D print some parts I've included here as well. If you use Baris' design, omit the rear hip servos and either use mine or Jack's parts to mount those.
+Build the robot either according to Baris' or Jack's design and whatever parts you may already have or can buy locally. This is the easy part! You can optionally 3D print some parts I've included here as well.
+
+If you use Baris' design, you can omit the rear hip servos and either use mine or Jack's parts to mount those. Alternatively, I added provision in the code for those servos to be set at calibration position and then just do nothing, so you could add them to your build and still use this code if you intend to develop for them later.
 
 ## Electronics Required
 
@@ -77,10 +79,10 @@ Check that i2c is enabled for your board. For OrangePi and possibly other Armbia
 
 Hardware-specific dependencies are set as optional in `package.json`:
 ```json
-"optionalDependencies": {
+{ "optionalDependencies": {
     "i2c-bus": "^5.2.3",
     "pca9685": "^5.0.0"
-}
+}}
 ```
 You can therefore do the install on a desktop OS and run the software, but i2c and the PCA9685 will be simulated and do nothing - you will see a message in console to confirm whether or not the hardware dependencies are OK or being simulated. All of the kinematic calculations are still executed so this was handy for development.
 
@@ -88,18 +90,10 @@ You can therefore do the install on a desktop OS and run the software, but i2c a
 
 Overall status
 
-- Right now the code works but the robot walks poorly. I'm not sure yet whether it's a physical or software issue. I think my robot is too heavy.
-- I'm absolutely useless when it comes to 3D modelling. The parts I've modified were done so in [123D Design](https://autodesk-123d-design.en.lo4d.com/windows), a discontinued piece of *very* basic software from Autodesk. If you want proper design files you'll need to make / convert them yourself 
+See related Git project for planned and in-progress features: https://github.com/users/Energiz3r/projects/2
 
-There are a couple of things that Jack's python program can do that are missing from this:
+I'm absolutely useless when it comes to 3D modelling. The parts I've modified were done so in [123D Design](https://autodesk-123d-design.en.lo4d.com/windows), a discontinued piece of *very* basic software from Autodesk. If you want proper design files you'll need to make / convert them yourself. Contributions of all kind are welcome, but conversion of the 3D files to proper CAD format especially so.
+
+There are a couple of features that Jack's python program can do that are missing from this, which I have no plan on adding:
 - direct keyboard control (keyboard plugged into the Pi). Not planning to add this as the OrangePi Zero LTS is headless-only and I can't see much use for it
-- camera following. Pretty awesome and key feature, but my OrangePi Zero LTS has no camera port. I may buy a new Pi later so I can develop this
-- direct keyboard control over the network (socket). A web interface with socket.io seems more practical and flexible, plus you can use your phone!
-- gait for climbing stairs. On my to-do list
-
-Other things I have planned:
-- poses / emotes
-  - design charging base for it to sit on
-- speaker for speech / text-to-speech via LLM + Whisper
-- config management via web interface
-- turn on / off servo power via web interface
+- direct keyboard control over the network (socket). A web interface with socket.io seems more practical and flexible, plus it works on your phone
