@@ -50,12 +50,12 @@ const keyPressHandler = (message) => {
     let keyChar = String.fromCharCode(keyCode);
     if (action === "keydown") {
         if (!keysPressed.includes(keyChar)) {
-            //console.log("Web UI: Keydown", keyChar)
+            console.log("Web UI: Keydown", keyChar)
             keysPressed.push(keyChar);
         }
     } else if (action === "keyup") {
         if (keysPressed.includes(keyChar)) {
-            //console.log("Web UI: Keyup", keyChar)
+            console.log("Web UI: Keyup", keyChar)
             keysPressed = keysPressed.filter(key => key !== keyChar);
         }
     }
