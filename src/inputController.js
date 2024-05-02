@@ -23,7 +23,7 @@ const inputController = (momentum, accel = config.accel, bound = 4) => {
             isAnyPressed = true
         }
         if (isAnyPressed) {
-            momentum.vertical = Math.min(momentum.vertical + accel * 10, 2)
+            momentum.vertical = Math.min(momentum.vertical + accel * 10, 1)
         }
     } else {
         const decelerate = (val) => {
