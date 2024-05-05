@@ -46,7 +46,7 @@ class GaitController {
 
             momentum = controller(momentum);
 
-            console.log("Loop! X:", momentum.longitudinal, "Y:", momentum.lateral, "Z:", momentum.vertical, "CPU:", process.cpuUsage())
+            console.log("Loop! X:", momentum.longitudinal, "Y:", momentum.lateral, "Z:", momentum.vertical)
 
             if (momentum.halted) {
                 if (this.servoController.isPowerOn) {
@@ -65,10 +65,10 @@ class GaitController {
             const curvePoints = applyMomentumToCurve3d(momentum, basicGait)
             const { fl, fr, bl, br } = mapCoordsToLegs(index, curvePoints)
 
-            this.setLegPosition('FL', fl.x, fl.y, fl.z)
-            this.setLegPosition('FR', fr.x, fr.y, fr.z)
-            this.setLegPosition('BL', bl.x, bl.y)
-            this.setLegPosition('BR', br.x, br.y)
+            // this.setLegPosition('FL', fl.x, fl.y, fl.z)
+            // this.setLegPosition('FR', fr.x, fr.y, fr.z)
+            // this.setLegPosition('BL', bl.x, bl.y)
+            // this.setLegPosition('BR', br.x, br.y)
 
             index++;
             if (index === curvePoints.x.length) index = 0;

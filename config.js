@@ -1,7 +1,7 @@
 const config = {
     port: 3000,
     accel: 0.20,
-    loopDelayMs: 500,
+    loopDelayMs: 100,
     calibrate: false,
     motors: {
         FR_SHOULDER: {channel: 12, defaultAngle: 60},
