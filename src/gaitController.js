@@ -24,7 +24,6 @@ class GaitController {
             angles = inversePositioning(x, y, false)
         if (legId === 'BR')
             angles = inversePositioning(x, y, true)
-        console.log(angles)
         this.servoController.setAngle(motors[`${legId}_SHOULDER`].channel, angles.thetaShoulder);
         this.servoController.setAngle(motors[`${legId}_ELBOW`].channel, angles.thetaElbow);
         if (legId === "FL" || legId === "FR") {
@@ -47,7 +46,7 @@ class GaitController {
 
             momentum = controller(momentum);
 
-            //console.log("Loop! X:", momentum.longitudinal, "Y:", momentum.lateral, "Z:", momentum.vertical)
+            console.log("Loop! X:", momentum.longitudinal, "Y:", momentum.lateral, "Z:", momentum.vertical)
 
             if (momentum.halted) {
                 if (this.servoController.isPowerOn) {
