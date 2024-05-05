@@ -51,7 +51,7 @@ const applyMomentumToCurve3d = (momentum, curve3d) => {
         return {
             x: point.x * momentum.longitudinal,
             y: point.y * momentum.lateral,
-            z: lerp(minZ, point.z, Math.min(momentum.longitudinal, momentum.lateral))
+            z: lerp(minZ, point.z, speed),
         }
     });
 

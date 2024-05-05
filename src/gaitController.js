@@ -46,8 +46,6 @@ class GaitController {
 
             momentum = controller(momentum);
 
-            console.log("Loop! X:", Math.trunc(momentum.longitudinal), "Y:", Math.trunc(momentum.lateral), "Z:", Math.trunc(momentum.vertical))
-
             if (momentum.halted) {
                 if (this.servoController.isPowerOn) {
                     console.log("Power OFF")
@@ -64,6 +62,9 @@ class GaitController {
 
             const curvePoints = applyMomentumToCurve3d(momentum, basicGait)
             const { fl, fr, bl, br } = mapCoordsToLegs(index, curvePoints)
+
+            //console.log("Loop! X:", Math.trunc(momentum.longitudinal), "Y:", Math.trunc(momentum.lateral), "Z:", Math.trunc(momentum.vertical))
+            console.log("Loop! X:", Math.trunc(br.x), "Y:", Math.trunc(br.y))
 
             this.setLegPosition('FL', fl.x, fl.y, fl.z)
             this.setLegPosition('FR', fr.x, fr.y, fr.z)
