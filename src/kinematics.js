@@ -1,4 +1,4 @@
-const {radToDegree} = require("./utils");
+const {radToDegree, lerp} = require("./utils");
 const { elbowOffset, shoulderOffset, upperLegLength, lowerLegLength } = require("../config").physical
 
 const inversePositioning = (x, y, right, z = 0) => {
@@ -40,11 +40,15 @@ const inversePositioning = (x, y, right, z = 0) => {
 }
 
 const applyMomentumToCurve3d = (momentum, curve3d) => {
-    const trajectory = curve3d.map(point => ({
-        x: point.x * momentum.longitudinal,
-        y: point.y * momentum.lateral,
-        z: point.z * momentum.vertical
-    }));
+
+    const minZ = curve3d.reduce((min, p) => p.z < min ? p.z : min, curve3d[0].z);
+    const trajectory = curve3d.map(point => {
+        return {
+            x: point.x * momentum.longitudinal,
+            y: point.y * momentum.lateral,
+            z: lerp(minZ, point.z, Math.min(momentum.longitudinal, momentum.lateral))
+        }
+    });
 
     const x = trajectory.map(point => point.x);
     const y = trajectory.map(point => point.z); // swapped z and y to be same as python

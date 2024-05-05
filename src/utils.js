@@ -6,7 +6,10 @@ const radToDegree = (rad) => {
     return (rad * 180) / Math.PI;
 }
 
+const lerp =  (x, y, a) => x * (1 - a) + y * a;
+
 module.exports = {
     mapNumber,
-    radToDegree
+    radToDegree,
+    lerp
 }
