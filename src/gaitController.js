@@ -39,14 +39,14 @@ class GaitController {
 
         const loop = () => {
 
-            console.log("Loop")
-
             if (shouldKillProcess) {
                 console.log("Loop was terminated.")
                 process.exit();
             }
 
             momentum = controller(momentum);
+
+            console.log("Loop! X:", momentum.longitudinal, "Y:", momentum.lateral, "Z:", momentum.vertical, "CPU:", process.cpuUsage())
 
             if (momentum.halted) {
                 if (this.servoController.isPowerOn) {
