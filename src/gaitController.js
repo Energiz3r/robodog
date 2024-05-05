@@ -38,6 +38,9 @@ class GaitController {
         let index = 0;
 
         const loop = () => {
+
+            console.log("Loop")
+
             if (shouldKillProcess) {
                 console.log("Loop was terminated.")
                 process.exit();
