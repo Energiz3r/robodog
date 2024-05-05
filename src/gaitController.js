@@ -46,7 +46,7 @@ class GaitController {
 
             momentum = controller(momentum);
 
-            console.log("Loop! X:", momentum.longitudinal, "Y:", momentum.lateral, "Z:", momentum.vertical)
+            console.log("Loop! X:", Math.trunc(momentum.longitudinal), "Y:", Math.trunc(momentum.lateral), "Z:", Math.trunc(momentum.vertical))
 
             if (momentum.halted) {
                 if (this.servoController.isPowerOn) {
