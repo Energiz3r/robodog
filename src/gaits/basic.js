@@ -6,8 +6,8 @@ const {Bezier} = require("bezier-js");
 const s_vals = linspace(0.0, 1.0, 20);
 
 const xmax = 1.0
-const zmax = 10.0
-const zmin = 15.0
+const zmax = 15.0
+const zmin = 10.0
 
 const step_nodes = [
     {x: -xmax, y: -xmax, z: -zmax},
@@ -20,8 +20,8 @@ const step = s_vals.map(t => stepCurve.get(t));
 
 const slide_nodes = [
     {x: xmax, y: xmax, z: -zmax},
-    {x: xmax, y: xmax, z: -11},
-    {x: -xmax, y: -xmax, z: -11},
+    // {x: xmax, y: xmax, z: -11},
+    // {x: -xmax, y: -xmax, z: -11},
     {x: -xmax, y: -xmax, z: -zmax}
 ];
 const slideCurve = new Bezier(slide_nodes);
