@@ -68,22 +68,24 @@ const mapCoordsToLegs = (index, curvePoints, inverse) => {
 
     const { x, y, z } = curvePoints;
     const numPoints = x.length
-    if (!inverse) index = numPoints - index
-    let i1 = index % numPoints;
-    let i2 = (index + numPoints / 2) % numPoints;
+   const indexR = numPoints - index
+    let r1 = indexR % numPoints;
+    let r2 = (indexR + numPoints / 2) % numPoints;
+    let f1 = index % numPoints;
+    let f2 = (index + numPoints / 2) % numPoints;
 
     return {
         fl: {
-            x: x[i2], y: y[i2] - 1, z: z[i2]
+            x: x[f2], y: y[f2] - 1, z: z[f2]
         },
         fr: {
-            x: x[i1], y: y[i1] - 1, z: z[i1]
+            x: x[f1], y: y[f1] - 1, z: z[f1]
         },
         bl: {
-            x: x[i1], y: y[i1] + 1
+            x: x[r1], y: y[r1] + 1
         },
         br: {
-            x: x[i2], y: y[i2] + 2
+            x: x[r2], y: y[r2] + 2
         }
     }
 }
