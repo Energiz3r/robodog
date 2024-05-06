@@ -67,8 +67,7 @@ const mapCoordsToLegs = (index, curvePoints) => {
     const { x, y, z } = curvePoints;
     const numPoints = x.length
     const i1 = index % numPoints;
-    const i2 = numPoints - (index + numPoints / 2) % numPoints;
-    console.log(i1, i2)
+    const i2 = (index + numPoints / 2) % numPoints;
 
     return {
         fl: {

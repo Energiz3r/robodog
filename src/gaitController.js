@@ -1,6 +1,6 @@
 const chalk = require('chalk');
-const { motors, loopDelayMs } = require("../config");
-const { inversePositioning, applyMomentumToCurve3d, mapCoordsToLegs } = require("./kinematics");
+const {motors, loopDelayMs} = require("../config");
+const {inversePositioning, applyMomentumToCurve3d, mapCoordsToLegs} = require("./kinematics");
 const basicGait = require("./gaits/basic");
 
 class GaitController {
@@ -34,7 +34,7 @@ class GaitController {
     move(controller) {
 
         let shouldKillProcess = false;
-        let momentum = { longitudinal: 0, lateral: 0, vertical: 1, halted: false };
+        let momentum = {longitudinal: 0, lateral: 0, vertical: 1, halted: false};
         let index = 0;
 
         const loop = () => {
@@ -60,8 +60,10 @@ class GaitController {
                 }
             }
 
-            const curvePoints = applyMomentumToCurve3d(momentum, basicGait)
-            const { fl, fr, bl, br } = mapCoordsToLegs(index, curvePoints)
+            const curvePointsA = applyMomentumToCurve3d(momentum, basicGait.a)
+            const curvePointsB = applyMomentumToCurve3d(momentum, basicGait.b)
+            const {fl, fr,} = mapCoordsToLegs(index, curvePointsA)
+            const {bl, br} = mapCoordsToLegs(index, curvePointsB)
 
             //console.log("Loop! X:", Math.trunc(momentum.longitudinal), "Y:", Math.trunc(momentum.lateral), "Z:", Math.trunc(momentum.vertical))
             console.log("Loop! X:", Math.trunc(br.x), Math.trunc(fr.x), "Y:", Math.trunc(br.y), Math.trunc(fr.y))
