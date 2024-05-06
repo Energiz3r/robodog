@@ -2,7 +2,7 @@ const { plot } = require('nodeplotlib');
 const basicGait = require('./src/gaits/basic')
 const {applyMomentumToCurve3d} = require("./src/kinematics");
 
-const momentum = { longitudinal: 1, lateral: 1, vertical: 1};
+const momentum = { longitudinal: 4, lateral: 0, vertical: 1};
 
 const coords = applyMomentumToCurve3d(momentum, basicGait.b)
 const { x, y, z } = coords

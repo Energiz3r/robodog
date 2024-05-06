@@ -6,24 +6,8 @@ const {Bezier} = require("bezier-js");
 const s_vals = linspace(0.0, 1.0, 20);
 
 const xmax = 1.0
-const zmin = 10.0
-const zmax = 15.0
-
-const stepNodes = (xmax, zmin, zmax) => {
-    return [
-        {x: -xmax, y: -xmax, z: -zmin},
-        {x: -xmax, y: -xmax, z: -zmax},
-        {x: xmax, y: xmax, z: -zmax},
-        {x: xmax, y: xmax, z: -zmin}
-    ]
-}
-
-const slideNodes = (xmax, zmin) => {
-    return [
-        {x: xmax, y: xmax, z: -zmin},
-        {x: -xmax, y: -xmax, z: -zmin}
-    ]
-}
+const zmin = 15.0
+const zmax = 10.0
 
 const generateCurve = (nodes) => {
     const stepCurve = new Bezier(nodes);
@@ -32,14 +16,31 @@ const generateCurve = (nodes) => {
 
 // returns an array of {x,y,z} coords starting and beginning at the same coordinate
 const generatePath = (xmax, zmin, zmax) => {
-    const stepPath = generateCurve(stepNodes(xmax, zmin, zmax));
-    const slidePath = generateCurve(slideNodes(xmax, zmin));
+    const stepNodes = [
+        {x: -xmax, y: -xmax, z: -zmin},
+        {x: -xmax, y: -xmax, z: -zmax},
+        {x: xmax, y: xmax, z: -zmax},
+        {x: xmax, y: xmax, z: -zmin}
+    ]
+    const slideNodes = [
+        {x: xmax, y: xmax, z: -zmin},
+        {x: -xmax, y: -xmax, z: -zmin}
+    ]
+    const stepPath = generateCurve(stepNodes);
+    // const stepPath = [
+    //     { x: -1, y: -1, z: -15, t: 0},
+    //     { x: -0.25, y: -1, z: -11.2, t: 0.25},
+    //     { x: 0.25, y: -1, z: -15, t: 0.75},
+    //     { x: 1, y: -1, z: -15, t: 1},
+    // ]
+    const slidePath = generateCurve(slideNodes);
+    console.log("step", stepPath, "slide", slidePath)
     return stepPath.concat(slidePath)
 }
 
 const basicGait = {
     a: generatePath(xmax, zmin, zmax),
-    b: generatePath(xmax, zmax, zmin)
+    b: generatePath(xmax, zmin, zmax)
 };
 
 module.exports = basicGait
