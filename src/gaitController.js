@@ -74,7 +74,7 @@ class GaitController {
             this.setLegPosition('BR', br.x, br.y)
 
             index++;
-            if (index === curvePoints.x.length) index = 0;
+            if (index === curvePointsA.x.length) index = 0;
             setTimeout(loop, loopDelayMs)
         }
 
