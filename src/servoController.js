@@ -45,6 +45,8 @@ class Servo {
         // writing to the servo fast repeatedly without waiting until the callback is resolved causes memory overflow
         if (!this.isBusy) {
             this.isBusy = true;
+            let newDegrees = degrees + this.offset
+            if (newDegrees < 0) newDegrees = 0;
             const pulseLength = utils.mapNumber(degrees + this.offset, 0, 180, 500, 2500)
             pca9685ODevice.setPulseLength(this.channel, pulseLength, 2500, () => this.isBusy = false)
         }
