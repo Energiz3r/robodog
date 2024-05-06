@@ -65,8 +65,10 @@ const applyMomentumToCurve3d = (momentum, curve3d, inverse) => {
 
 const mapCoordsToLegs = (index, curvePoints, inverse) => {
 
+
     const { x, y, z } = curvePoints;
     const numPoints = x.length
+    if (inverse) index = numPoints - index
     let i1 = index % numPoints;
     let i2 = (index + numPoints / 2) % numPoints;
     if (inverse) {
