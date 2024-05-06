@@ -27,11 +27,13 @@ const pca9685Options = {
 class Servo {
 
     channel = 0;
+    offset = 0;
     isReady = false;
     isBusy = false;
 
-    constructor(channel) {
-        this.channel = channel;
+    constructor(motor) {
+        this.channel = motor.channel;
+        this.offset = motor.offset;
     }
 
     init() {
@@ -43,7 +45,7 @@ class Servo {
         // writing to the servo fast repeatedly without waiting until the callback is resolved causes memory overflow
         if (!this.isBusy) {
             this.isBusy = true;
-            const pulseLength = utils.mapNumber(degrees, 0, 180, 500, 2500)
+            const pulseLength = utils.mapNumber(degrees + this.offset, 0, 180, 500, 2500)
             pca9685ODevice.setPulseLength(this.channel, pulseLength, 2500, () => this.isBusy = false)
         }
     }
@@ -56,7 +58,7 @@ class ServoController {
 
     constructor() {
         this.servos = Object.keys(config.motors).map((key) => {
-            return new Servo(config.motors[key].channel)
+            return new Servo(config.motors[key])
         });
         this.initialize().then(() => {
             this.servos.forEach(servo => servo.init())
