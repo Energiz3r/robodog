@@ -15,32 +15,24 @@ const generateCurve = (nodes) => {
 }
 
 // returns an array of {x,y,z} coords starting and beginning at the same coordinate
-const generatePath = (xmax, zmin, zmax) => {
-    const stepNodes = [
-        {x: -xmax, y: -xmax, z: -zmin},
-        {x: -xmax, y: -xmax, z: -zmax},
-        {x: xmax, y: xmax, z: -zmax},
-        {x: xmax, y: xmax, z: -zmin}
-    ]
-    const slideNodes = [
-        {x: xmax, y: xmax, z: -zmin},
-        {x: -xmax, y: -xmax, z: -zmin}
-    ]
-    const stepPath = generateCurve(stepNodes);
-    // const stepPath = [
-    //     { x: -1, y: -1, z: -15, t: 0},
-    //     { x: -0.25, y: -1, z: -11.2, t: 0.25},
-    //     { x: 0.25, y: -1, z: -15, t: 0.75},
-    //     { x: 1, y: -1, z: -15, t: 1},
-    // ]
-    const slidePath = generateCurve(slideNodes);
-    console.log("step", stepPath, "slide", slidePath)
-    return stepPath.concat(slidePath)
-}
-
-const basicGait = {
-    a: generatePath(xmax, zmin, zmax),
-    b: generatePath(xmax, zmin, zmax)
-};
-
+const stepNodes = [
+    {x: -xmax, y: -xmax, z: -zmin},
+    {x: -xmax, y: -xmax, z: -zmax},
+    {x: xmax, y: xmax, z: -zmax},
+    {x: xmax, y: xmax, z: -zmin}
+]
+// const stepPath = [
+//     { x: -1, y: -1, z: -15, t: 0},
+//     { x: -0.25, y: -1, z: -11.2, t: 0.25},
+//     { x: 0.25, y: -1, z: -15, t: 0.75},
+//     { x: 1, y: -1, z: -15, t: 1},
+// ]
+const slideNodes = [
+    {x: xmax, y: xmax, z: -zmin},
+    {x: -xmax, y: -xmax, z: -zmin}
+]
+const stepPath = generateCurve(stepNodes);
+const slidePath = generateCurve(slideNodes);
+console.log("step", stepPath, "slide", slidePath)
+const basicGait = stepPath.concat(slidePath)
 module.exports = basicGait

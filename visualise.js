@@ -4,7 +4,7 @@ const {applyMomentumToCurve3d} = require("./src/kinematics");
 
 const momentum = { longitudinal: 4, lateral: 0, vertical: 1};
 
-const coords = applyMomentumToCurve3d(momentum, basicGait.b)
+const coords = applyMomentumToCurve3d(momentum, basicGait)
 const { x, y, z } = coords
 
 const data = [
