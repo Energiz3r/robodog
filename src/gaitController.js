@@ -63,7 +63,7 @@ class GaitController {
             const curvePointsA = applyMomentumToCurve3d(momentum, basicGait.a)
             const curvePointsB = applyMomentumToCurve3d(momentum, basicGait.b, true)
             const {fl, fr,} = mapCoordsToLegs(index, curvePointsA)
-            const {bl, br} = mapCoordsToLegs(index, curvePointsB)
+            const {bl, br} = mapCoordsToLegs(index, curvePointsB, true)
 
             //console.log("Loop! X:", Math.trunc(momentum.longitudinal), "Y:", Math.trunc(momentum.lateral), "Z:", Math.trunc(momentum.vertical))
             console.log("Loop! X:", Math.trunc(br.x), Math.trunc(fr.x), "Y:", Math.trunc(br.y), Math.trunc(fr.y))
