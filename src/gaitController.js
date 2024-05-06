@@ -61,7 +61,7 @@ class GaitController {
             }
 
             const curvePointsA = applyMomentumToCurve3d(momentum, basicGait.a)
-            const curvePointsB = applyMomentumToCurve3d(momentum, basicGait.b)
+            const curvePointsB = applyMomentumToCurve3d(momentum, basicGait.b, true)
             const {fl, fr,} = mapCoordsToLegs(index, curvePointsA)
             const {bl, br} = mapCoordsToLegs(index, curvePointsB)
 

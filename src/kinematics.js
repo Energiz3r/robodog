@@ -43,15 +43,16 @@ const clamp = (number, min, max) => {
     return Math.max(min, Math.min(number, max));
 }
 
-const applyMomentumToCurve3d = (momentum, curve3d) => {
+const applyMomentumToCurve3d = (momentum, curve3d, inverse) => {
 
     const minZ = curve3d.reduce((min, p) => p.z < min ? p.z : min, curve3d[0].z);
+    const maxZ = curve3d.reduce((max, p) => p.z > max ? p.z : max, curve3d[0].z);
     const trajectory = curve3d.map(point => {
         const speed = clamp(Math.max(Math.abs(momentum.longitudinal), Math.abs(momentum.lateral)), 0.0, 1.0)
         return {
             x: point.x * momentum.longitudinal,
             y: point.y * momentum.lateral,
-            z: lerp(minZ, point.z, speed),
+            z: inverse ? lerp(point.z, maxZ, 1.0 - speed) : lerp(minZ, point.z, speed),
         }
     });
 
