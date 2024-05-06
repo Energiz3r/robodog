@@ -26,9 +26,9 @@ class GaitController {
             angles = inversePositioning(x, y, true)
         this.servoController.setAngle(motors[`${legId}_SHOULDER`].channel, angles.thetaShoulder);
         this.servoController.setAngle(motors[`${legId}_ELBOW`].channel, angles.thetaElbow);
-        if (legId === "FL" || legId === "FR") {
-            this.servoController.setAngle(motors[`${legId}_HIP`].channel, angles.thetaHip);
-        }
+        // if (legId === "FL" || legId === "FR") {
+        //     this.servoController.setAngle(motors[`${legId}_HIP`].channel, angles.thetaHip);
+        // }
     }
 
     move(controller) {
