@@ -71,8 +71,8 @@ class GaitController {
 
             // this.setLegPosition('FL', fl.x, fl.y, fl.z)
             // this.setLegPosition('FR', fr.x, fr.y, fr.z)
-            this.setLegPosition('FL', br.x, br.y, fl.z)
-            this.setLegPosition('FR', bl.x, bl.y, fr.z)
+            this.setLegPosition('FL', br.x, br.y)
+            this.setLegPosition('FR', bl.x, bl.y)
             this.setLegPosition('BL', bl.x, bl.y)
             this.setLegPosition('BR', br.x, br.y)
 
