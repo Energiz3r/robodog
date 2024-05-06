@@ -52,7 +52,7 @@ const applyMomentumToCurve3d = (momentum, curve3d, inverse) => {
         return {
             x: point.x * momentum.longitudinal,
             y: point.y * momentum.lateral,
-            z: inverse ? lerp(point.z, maxZ, 1.0 - speed) : lerp(minZ, point.z, speed),
+            z: inverse ? lerp(point.z, maxZ, speed) : lerp(minZ, point.z, 1.0 - speed),
         }
     });
 
@@ -71,10 +71,6 @@ const mapCoordsToLegs = (index, curvePoints, inverse) => {
     if (!inverse) index = numPoints - index
     let i1 = index % numPoints;
     let i2 = (index + numPoints / 2) % numPoints;
-    // if (inverse) {
-    //     i2 = index % numPoints;
-    //     i1 = (index + numPoints / 2) % numPoints;
-    // }
 
     return {
         fl: {
