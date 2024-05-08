@@ -55,10 +55,10 @@ class GaitController {
             //console.log(index, "BL/FR X:", Math.trunc(bl.x), Math.trunc(fr.x), "Y:", Math.trunc(bl.y), Math.trunc(fr.y))
             console.log(Math.floor(index), fr)
 
-            const frAngles = inversePositioning(fr, true);
-            const flAngles = inversePositioning(fl, false);
-            const brAngles = inversePositioning(br, true);
-            const blAngles = inversePositioning(bl, false);
+            const frAngles = inversePositioning(fr, false);
+            const flAngles = inversePositioning(fl, true);
+            const brAngles = inversePositioning(br, false);
+            const blAngles = inversePositioning(bl, true);
 
             this.setLegPosition('FR', frAngles)
             this.setLegPosition('FL', flAngles)
