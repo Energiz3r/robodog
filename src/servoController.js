@@ -60,6 +60,7 @@ class ServoController {
     isPowerOn = true;
 
     constructor() {
+        console.log(config.motors)
         this.servos = Object.keys(config.motors).map((key) => {
             return new Servo(config.motors[key])
         });
