@@ -19,8 +19,8 @@ const stepNodes = [
     {x: xmax, y: xmax, z: -zmin}
 ]
 const slideNodes = [
-    {x: xmax, y: xmax, z: -zmin},
-    {x: -xmax, y: -xmax, z: -zmin}
+    {x: xmax, y: xmax, z: -zmax},
+    {x: -xmax, y: -xmax, z: -zmax}
 ]
 const stepPath = generateCurve(stepNodes);
 const slidePath = generateCurve(slideNodes);
