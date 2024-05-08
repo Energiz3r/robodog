@@ -59,9 +59,7 @@ class GaitController {
             const brAngles = inversePositioning(br, true);
             const blAngles = inversePositioning(bl, false);
 
-            console.log(brAngles,frAngles)
-
-            this.setLegPosition('FR', brAngles)
+            this.setLegPosition('FR', frAngles)
             this.setLegPosition('FL', flAngles)
             this.setLegPosition('BR', brAngles)
             this.setLegPosition('BL', blAngles)
