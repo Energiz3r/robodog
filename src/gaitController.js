@@ -14,10 +14,7 @@ class GaitController {
         })
     }
 
-    setLegPosition(legId, x, y, z) {
-        let right = false;
-        if (legId === 'FR' || legId === "BR") right = true;
-        const angles = inversePositioning(x, y, z, right)
+    setLegPosition(legId, angles) {
         this.servoController.setAngle(motors[`${legId}_SHOULDER`].channel, angles.thetaShoulder);
         this.servoController.setAngle(motors[`${legId}_ELBOW`].channel, angles.thetaElbow);
         this.servoController.setAngle(motors[`${legId}_HIP`].channel, angles.thetaHip);
@@ -55,12 +52,19 @@ class GaitController {
             const curvePoints = applyMomentumToCurve3d(momentum, basicGait)
             const {fl, fr, bl, br} = mapCoordsToLegs(Math.floor(index), curvePoints)
 
-            console.log(index, "BL/FR X:", Math.trunc(bl.x), Math.trunc(fr.x), "Y:", Math.trunc(bl.y), Math.trunc(fr.y))
+            //console.log(index, "BL/FR X:", Math.trunc(bl.x), Math.trunc(fr.x), "Y:", Math.trunc(bl.y), Math.trunc(fr.y))
 
-            this.setLegPosition('FL', fl.x, fl.y, fl.z)
-            this.setLegPosition('FR', fr.x, fr.y, fr.z)
-            this.setLegPosition('BL', bl.x, bl.y, bl.z)
-            this.setLegPosition('BR', br.x, br.y, br.z)
+            const frAngles = inversePositioning(fr, true);
+            const flAngles = inversePositioning(fl, false);
+            const brAngles = inversePositioning(br, true);
+            const blAngles = inversePositioning(bl, false);
+
+            console.log(frAngles, flAngles)
+
+            this.setLegPosition('FL', flAngles)
+            this.setLegPosition('FR', frAngles)
+            this.setLegPosition('BL', blAngles)
+            this.setLegPosition('BR', brAngles)
 
             index = index +
                 Math.max(

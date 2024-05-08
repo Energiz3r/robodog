@@ -9,9 +9,11 @@ class dummyPCA {
         callback(false)
     }
     setPulseRange(channel, low, hi, callback) {
+        if (callback)
         setTimeout(() => callback(), 3)
     }
     setPulseLength(channel, pulseLength, out_max, callback) {
+        if (callback)
         setTimeout(() => callback(), 3)
     }
     allChannelsOff(){

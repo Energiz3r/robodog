@@ -1,7 +1,8 @@
 const {radToDegree, lerp, clamp} = require("./utils");
 const {elbowOffset, shoulderOffset, upperLegLength, lowerLegLength} = require("../config").physical
 
-const inversePositioning = (x, y, z, right) => {
+const inversePositioning = (coords, right) => {
+    const { x, y, z } = coords;
     const L = 2;
     const y_prime = -Math.sqrt((z + L) ** 2 + y ** 2);
     const thetaZ =
