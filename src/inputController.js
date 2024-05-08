@@ -18,7 +18,7 @@ const decelerate = (val, accel) => {
 const inputController = (
     momentum,
     accel = config.accel,
-    bound = 8,
+    bound = 6,
 ) => {
     const isPressed = (key, keyExcepted) => {
         if (!keysPressed?.length) return false
