@@ -76,18 +76,20 @@
         return String.fromCharCode(code);
     }
 
-    const addListener = (id, key) => {
+    const addListener = (id, key, isToggle = false) => {
         document.getElementById(id).onmousedown = () => {
             socket.emit('keydown', getKeyCode(key));
-        }
-        document.getElementById(id).onmouseup = () => {
-            socket.emit('keyup', getKeyCode(key));
         }
         document.getElementById(id).ontouchstart = () => {
             socket.emit('keydown', getKeyCode(key));
         }
-        document.getElementById(id).ontouchend = () => {
-            socket.emit('keyup', getKeyCode(key));
+        if (!isToggle) {
+            document.getElementById(id).onmouseup = () => {
+                socket.emit('keyup', getKeyCode(key));
+            }
+            document.getElementById(id).ontouchend = () => {
+                socket.emit('keyup', getKeyCode(key));
+            }
         }
     }
 
@@ -107,8 +109,8 @@
     addListener("left", "A")
     addListener("right", "D")
     addListener("aux", " ")
-    addListener("q-button", "Q")
-    addListener("e-button", "E")
+    addListener("q-button", "Q", true)
+    addListener("e-button", "E", true)
 
 </script>
 </body>

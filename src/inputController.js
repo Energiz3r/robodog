@@ -51,13 +51,13 @@ const inputController = (
 
     if (isPressed("Q", "E")) {
         momentum.vertical = Math.max(momentum.vertical - 0.05, 0.5);
-    } else {
+    } else if (momentum.vertical < 1) {
         momentum.vertical = Math.min(momentum.vertical + 0.05, 1);
     }
 
     if (isPressed("E", "Q")) {
         momentum.vertical = Math.max(momentum.vertical + 0.05, 1.5);
-    } else {
+    } else if (momentum.vertical > 1)  {
         momentum.vertical = Math.min(momentum.vertical - 0.05, 1);
     }
 
