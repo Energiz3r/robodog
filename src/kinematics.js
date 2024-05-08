@@ -4,9 +4,11 @@ const {elbowOffset, shoulderOffset, upperLegLength, lowerLegLength} = require(".
 const inversePositioning = (coords, left) => {
     const { x, y, z } = coords;
     const L = 2;
-    const y_prime = -Math.sqrt((z + L) ** 2 + y ** 2);
+    let y_prime = -Math.sqrt((z + L) ** 2 + y ** 2);
     const thetaZ =
         Math.atan2(z + L, Math.abs(y)) - Math.atan2(L, Math.abs(y_prime));
+
+    if (z !== 0) y_prime = -Math.sqrt((z + L) ** 2 + (y + thetaZ * 5) ** 2);
 
     const a1 = upperLegLength;
     const a2 = lowerLegLength;
