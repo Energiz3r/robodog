@@ -42,7 +42,7 @@ class Servo {
     }
 
     setAngle(degrees) {
-        if (this.channel === 12) {
+        if (this.channel === 13) {
             console.log(degrees, ",", this.offset)
         }
         // writing to the servo fast repeatedly without waiting until the callback is resolved causes memory overflow
