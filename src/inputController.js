@@ -2,54 +2,68 @@ const config = require("../config");
 
 let keysPressed = [];
 
-const inputController = (momentum, accel = config.accel, bound = 4) => {
-    if (keysPressed.length) {
-        const isPressed = (key, keyExcepted) => {
-            return keysPressed.includes(key) && !keysPressed.includes(keyExcepted)
+const decelerate = (val, accel) => {
+    const func = val > 0 ? Math.floor : Math.ceil;
+    const mom = func(val * 100) / 100;
+    if (mom > 0) {
+        if (mom - accel > 0) return mom - accel;
+        else return 0;
+    } else if (mom < 0) {
+        if (mom + accel < 0) return mom + accel;
+        else return 0;
+    } else return 0;
+};
+
+
+const inputController = (
+    momentum,
+    accel = config.accel,
+    bound = 4,
+    keysPressed,
+) => {
+    const isPressed = (key, keyExcepted) => {
+        if (!keysPressed?.length) return false
+        if (keyExcepted) {
+            return keysPressed.includes(key) && !keysPressed.includes(keyExcepted);
+        } else {
+            return keysPressed.includes(key);
         }
-        if (isPressed(" ", "8")) {
-            momentum.halted = !momentum.halted
-            keysPressed = [];
+    };
+
+    if (isPressed("W") || isPressed("S")) {
+        if (isPressed("W", "S")) {
+            momentum.longitudinal = Math.min(momentum.longitudinal + accel, bound);
+        } else if (isPressed("S", "W")) {
+            momentum.longitudinal = Math.max(momentum.longitudinal - accel, -bound);
         }
-        //let isAnyPressed = false;
-        if (!momentum.halted) {
-            if (isPressed("W", "S")) {
-                momentum.longitudinal = Math.min(momentum.longitudinal + accel, bound)
-                //isAnyPressed = true;
-            } else if (isPressed("S", "W")) {
-                momentum.longitudinal = Math.max(momentum.longitudinal - accel, -bound)
-                //isAnyPressed = true
-            }
-            if (isPressed("A", "D")) {
-                momentum.lateral = Math.max(momentum.lateral - accel, -bound)
-                //isAnyPressed = true
-            } else if (isPressed("D", "A")) {
-                momentum.lateral = Math.min(momentum.lateral + accel, bound)
-                //isAnyPressed = true
-            }
-        }
-        // if (isAnyPressed) {
-        //     //momentum.vertical = Math.min(momentum.vertical + accel * 10, 1)
-        // }
     } else {
-        const decelerate = (val) => {
-            const func = val > 0 ? Math.floor : Math.ceil;
-            const mom = func(val * 100) / 100
-            if (mom > 0) {
-                if (mom - accel > 0) return mom - accel
-                else return 0
-            } else if (mom < 0) {
-                if (mom + accel < 0) return mom + accel
-                else return 0
-            } else return 0
-        }
-        momentum.longitudinal = decelerate(momentum.longitudinal)
-        momentum.lateral = decelerate(momentum.lateral)
-        //momentum.vertical = decelerate(momentum.vertical)
+        momentum.longitudinal = decelerate(momentum.longitudinal, accel);
     }
-    //console.log("momentum", momentum)
-    return momentum
-}
+
+    if (isPressed("A") || isPressed("D")) {
+        if (isPressed("A", "D")) {
+            momentum.lateral = Math.max(momentum.lateral - accel, -bound);
+        } else if (isPressed("D", "A")) {
+            momentum.lateral = Math.min(momentum.lateral + accel, bound);
+        }
+    } else {
+        momentum.lateral = decelerate(momentum.lateral, accel);
+    }
+
+    if (isPressed("Q", "E")) {
+        momentum.vertical = Math.max(momentum.vertical - 0.05, 0.5);
+    } else {
+        momentum.vertical = Math.min(momentum.vertical + 0.05, 1);
+    }
+
+    if (isPressed("E", "Q")) {
+        momentum.vertical = Math.max(momentum.vertical + 0.05, 1.5);
+    } else {
+        momentum.vertical = Math.min(momentum.vertical - 0.05, 1);
+    }
+
+    return momentum;
+};
 
 const keyPressHandler = (message) => {
     const {action, keyCode} = message;

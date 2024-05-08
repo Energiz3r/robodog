@@ -14,9 +14,9 @@
 <center>
 <h1>Controls</h1>
 <div class="button-container">
-    <div></div>
+    <button id="q-button">Q</button>
     <button id="forward">⬆️</button>
-    <div></div>
+    <button id="e-button">E</button>
     <button id="left">⬅️</button>
     <button id="backward">⬇️</button>
     <button id="right">➡️</button>
@@ -67,7 +67,7 @@
 
     const socket = io();
 
-    const allowedKeys = ["W", "A", "S", "D", " "]
+    const allowedKeys = ["Q", "W", "E", "A", "S", "D", " "]
 
     function getKeyCode(str) {
         return str.charCodeAt(0);
@@ -107,6 +107,8 @@
     addListener("left", "A")
     addListener("right", "D")
     addListener("aux", " ")
+    addListener("q-button", "Q")
+    addListener("e-button", "E")
 
 </script>
 </body>

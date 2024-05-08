@@ -28,7 +28,7 @@ const inversePositioning = (coords, left) => {
     const s1 =
         (y_prime * (a1 + a2 * c2) - x * (a2 * s2)) / (x ** 2 + y_prime ** 2);
     let theta1 = Math.atan2(s1, c1);
-    // generate positions with respect to robot motors
+
     let thetaShoulder = -theta1;
     let thetaElbow = thetaShoulder - theta2;
     let thetaHip;
@@ -60,7 +60,7 @@ const applyMomentumToCurve3d = (momentum, curve3d, inverse) => {
     });
 
     const x = trajectory.map(point => point.x);
-    const y = trajectory.map(point => point.z); // swapped z and y to be same as python
+    const y = trajectory.map(point => point.z + (1 - momentum.vertical) * 6); // swapped z and y to be same as python
     const z = trajectory.map(point => point.y);
 
     return {x, y, z}
