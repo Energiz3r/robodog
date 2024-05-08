@@ -6,10 +6,10 @@ const config = {
     motors: {
         FR_SHOULDER: {channel: 12, defaultAngle: 60, offset: -8},
         FR_ELBOW: {channel: 13, defaultAngle: 90, offset: 2},
-        FR_HIP: {channel: 14, defaultAngle: 90, offset: 0},
+        FR_HIP: {channel: 14, defaultAngle: 90, offset: -4},
         FL_SHOULDER: {channel: 8, defaultAngle: 120, offset: 6},
         FL_ELBOW: {channel: 9, defaultAngle: 90, offset: -9},
-        FL_HIP: {channel: 10, defaultAngle: 90, offset: 0},
+        FL_HIP: {channel: 10, defaultAngle: 90, offset: -2},
         BR_SHOULDER: {channel: 0, defaultAngle: 60, offset: 0},
         BR_ELBOW: {channel: 1, defaultAngle: 90, offset: 10},
         BR_HIP: {channel: 2, defaultAngle: 90, offset: 0}, // unused
