@@ -8,8 +8,13 @@ const radToDegree = (rad) => {
 
 const lerp =  (x, y, a) => x * (1 - a) + y * a;
 
+const clamp = (number, min, max) => {
+    return Math.max(min, Math.min(number, max));
+}
+
 module.exports = {
     mapNumber,
     radToDegree,
-    lerp
+    lerp,
+    clamp
 }

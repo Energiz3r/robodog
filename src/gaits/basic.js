@@ -1,8 +1,6 @@
 const linspace = require("linspace");
 const {Bezier} = require("bezier-js");
 
-// generates two curves - the arc for stepping and a flat curve (line) for returning the foot to the start position
-
 const s_vals = linspace(0.0, 1.0, 20);
 
 const xmax = 1.0
@@ -14,25 +12,21 @@ const generateCurve = (nodes) => {
     return s_vals.map(t => stepCurve.get(t));
 }
 
-// returns an array of {x,y,z} coords starting and beginning at the same coordinate
 const stepNodes = [
     {x: -xmax, y: -xmax, z: -zmin},
     {x: -xmax, y: -xmax, z: -zmax},
     {x: xmax, y: xmax, z: -zmax},
     {x: xmax, y: xmax, z: -zmin}
 ]
-// const stepPath = [
-//     { x: -1, y: -1, z: -15, t: 0},
-//     { x: -0.25, y: -1, z: -11.2, t: 0.25},
-//     { x: 0.25, y: -1, z: -15, t: 0.75},
-//     { x: 1, y: -1, z: -15, t: 1},
-// ]
 const slideNodes = [
     {x: xmax, y: xmax, z: -zmin},
     {x: -xmax, y: -xmax, z: -zmin}
 ]
 const stepPath = generateCurve(stepNodes);
 const slidePath = generateCurve(slideNodes);
-console.log("step", stepPath, "slide", slidePath)
-const basicGait = stepPath.concat(slidePath)
+
+let stepPathFast = stepPath.filter((node, i) => !(i % 2));
+stepPathFast[stepPathFast.length - 1] = stepPath[stepPath.length - 1];
+
+const basicGait = stepPathFast.concat(slidePath)
 module.exports = basicGait

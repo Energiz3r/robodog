@@ -14,21 +14,13 @@ class GaitController {
         })
     }
 
-    setLegPosition(legId, x, y, z = 0) {
-        let angles;
-        if (legId === 'FL')
-            angles = inversePositioning(x, y, false, z)
-        if (legId === 'FR')
-            angles = inversePositioning(x, y, true, z)
-        if (legId === 'BL')
-            angles = inversePositioning(x, y, false)
-        if (legId === 'BR')
-            angles = inversePositioning(x, y, true)
+    setLegPosition(legId, x, y, z) {
+        let right = false;
+        if (legId === 'FR' || legId === "BR") right = true;
+        const angles = inversePositioning(x, y, z, right)
         this.servoController.setAngle(motors[`${legId}_SHOULDER`].channel, angles.thetaShoulder);
         this.servoController.setAngle(motors[`${legId}_ELBOW`].channel, angles.thetaElbow);
-        // if (legId === "FL" || legId === "FR") {
-        //     this.servoController.setAngle(motors[`${legId}_HIP`].channel, angles.thetaHip);
-        // }
+        this.servoController.setAngle(motors[`${legId}_HIP`].channel, angles.thetaHip);
     }
 
     move(controller) {
@@ -60,24 +52,27 @@ class GaitController {
                 }
             }
 
-            const curvePointsA = applyMomentumToCurve3d(momentum, basicGait)
-            const curvePointsB = applyMomentumToCurve3d(momentum, basicGait, true)
-            const {fl, fr,} = mapCoordsToLegs(index, curvePointsA)
-            const {bl, br} = mapCoordsToLegs(index, curvePointsB, true)
+            const curvePoints = applyMomentumToCurve3d(momentum, basicGait)
+            const {fl, fr, bl, br} = mapCoordsToLegs(Math.floor(index), curvePoints)
 
             //console.log("Loop! X:", Math.trunc(momentum.longitudinal), "Y:", Math.trunc(momentum.lateral), "Z:", Math.trunc(momentum.vertical))
-            console.log(index, "BL/FR X:", Math.trunc(bl.x), Math.trunc(fr.x), "Y:", Math.trunc(bl.y), Math.trunc(fr.y))
-            console.log(index, "BR/FL X:", Math.trunc(br.x), Math.trunc(fl.x), "Y:", Math.trunc(br.y), Math.trunc(fl.y))
+            console.log(Math.floor(index), "BL/FR X:", Math.trunc(bl.x), Math.trunc(fr.x), "Y:", Math.trunc(bl.y), Math.trunc(fr.y))
+            console.log(Math.floor(index), "BR/FL X:", Math.trunc(br.x), Math.trunc(fl.x), "Y:", Math.trunc(br.y), Math.trunc(fl.y))
 
-            // this.setLegPosition('FL', fl.x, fl.y, fl.z)
-            // this.setLegPosition('FR', fr.x, fr.y, fr.z)
-            this.setLegPosition('FL', br.x, br.y)
-            this.setLegPosition('FR', bl.x, bl.y)
-            this.setLegPosition('BL', bl.x, bl.y)
-            this.setLegPosition('BR', br.x, br.y)
+            this.setLegPosition('FL', fl.x, fl.y, fl.z)
+            this.setLegPosition('FR', fr.x, fr.y, fr.z)
+            this.setLegPosition('BL', bl.x, bl.y, bl.z)
+            this.setLegPosition('BR', br.x, br.y, br.z)
 
-            index++;
-            if (index === curvePointsA.x.length) index = 0;
+            index = index +
+                Math.max(
+                    Math.max(
+                        Math.abs(momentum.longitudinal),
+                        Math.abs(momentum.lateral),
+                    ) / 4,
+                    0.1,
+                )
+            if (index >= curvePoints.x.length) index = 0;
             setTimeout(loop, loopDelayMs)
         }
 

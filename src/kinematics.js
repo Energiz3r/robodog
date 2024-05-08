@@ -1,12 +1,12 @@
-const {radToDegree, lerp} = require("./utils");
-const { elbowOffset, shoulderOffset, upperLegLength, lowerLegLength } = require("../config").physical
+const {radToDegree, lerp, clamp} = require("./utils");
+const {elbowOffset, shoulderOffset, upperLegLength, lowerLegLength} = require("../config").physical
 
-const inversePositioning = (x, y, right, z = 0) => {
+const inversePositioning = (x, y, z, right) => {
     const L = 2;
     const y_prime = -Math.sqrt((z + L) ** 2 + y ** 2);
     const thetaZ =
         Math.atan2(z + L, Math.abs(y)) - Math.atan2(L, Math.abs(y_prime));
-    
+
     const a1 = upperLegLength;
     const a2 = lowerLegLength;
 
@@ -35,13 +35,9 @@ const inversePositioning = (x, y, right, z = 0) => {
         thetaHip = 90 + radToDegree(thetaZ);
     }
 
-    //if (shoulder === 0) console.log("shoulder:",thetaShoulder,"elbow:",thetaElbow, "hip:", thetaHip);
-    return { thetaShoulder, thetaElbow, thetaHip };
+    return {thetaShoulder, thetaElbow, thetaHip};
 }
 
-const clamp = (number, min, max) => {
-    return Math.max(min, Math.min(number, max));
-}
 
 const applyMomentumToCurve3d = (momentum, curve3d, inverse) => {
 
@@ -52,7 +48,7 @@ const applyMomentumToCurve3d = (momentum, curve3d, inverse) => {
         return {
             x: point.x * momentum.longitudinal,
             y: point.y * momentum.lateral,
-            z: point.z * momentum.vertical //inverse ? lerp(maxZ, point.z, speed) : lerp(point.z, minZ, 1.0 - speed),
+            z: point.z * inverse ? lerp(maxZ, point.z, speed) : lerp(point.z, minZ, 1.0 - speed),
         }
     });
 
@@ -60,34 +56,37 @@ const applyMomentumToCurve3d = (momentum, curve3d, inverse) => {
     const y = trajectory.map(point => point.z); // swapped z and y to be same as python
     const z = trajectory.map(point => point.y);
 
-    return { x, y, z }
+    return {x, y, z}
 }
 
-const mapCoordsToLegs = (index, curvePoints, inverse) => {
-
-
-    const { x, y, z } = curvePoints;
+const mapCoordsToLegs = (index, curvePoints) => {
+    const {x, y, z} = curvePoints;
     const numPoints = x.length
-   const indexR = numPoints - index
     let r1 = index % numPoints;
     let r2 = (index + numPoints / 2) % numPoints;
-    let f1 = indexR % numPoints;
-    let f2 = (indexR + numPoints / 2) % numPoints;
 
     return {
         fl: {
-            x: x[f2], y: y[f2] - 1, z: z[f2]
+            x: x[r2],
+            y: y[r2],
+            z: z[r2],
         },
         fr: {
-            x: x[f1], y: y[f1] - 1, z: z[f1]
+            x: x[r1],
+            y: y[r1],
+            z: z[r1],
         },
         bl: {
-            x: x[r1], y: y[r1] + 1
+            x: x[r1],
+            y: y[r1],
+            z: 0,
         },
         br: {
-            x: x[r2], y: y[r2] + 2
-        }
-    }
+            x: x[r2],
+            y: y[r2],
+            z: 0,
+        },
+    };
 }
 
 module.exports = {
