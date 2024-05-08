@@ -50,7 +50,7 @@ class GaitController {
             }
 
             const curvePoints = applyMomentumToCurve3d(momentum, basicGait)
-            const {fl, fr, bl, br} = mapCoordsToLegs(Math.floor(index), curvePoints)
+            const {fr, fl, br, bl} = mapCoordsToLegs(Math.floor(index), curvePoints)
 
             //console.log(index, "BL/FR X:", Math.trunc(bl.x), Math.trunc(fr.x), "Y:", Math.trunc(bl.y), Math.trunc(fr.y))
 
@@ -61,10 +61,10 @@ class GaitController {
 
             console.log(brAngles,frAngles)
 
+            this.setLegPosition('FR', brAngles)
             this.setLegPosition('FL', flAngles)
-            this.setLegPosition('FR', frAngles)
-            this.setLegPosition('BL', blAngles)
             this.setLegPosition('BR', brAngles)
+            this.setLegPosition('BL', blAngles)
 
             index = index +
                 Math.max(
