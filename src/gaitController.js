@@ -59,8 +59,10 @@ class GaitController {
             console.log(index, "BL/FR X:", Math.trunc(bl.x), Math.trunc(fr.x), "Y:", Math.trunc(bl.y), Math.trunc(fr.y))
             //console.log(index, "BR/FL X:", Math.trunc(br.x), Math.trunc(fl.x), "Y:", Math.trunc(br.y), Math.trunc(fl.y))
 
-            this.setLegPosition('FL', fl.x, fl.y, fl.z)
-            this.setLegPosition('FR', fr.x, fr.y, fr.z)
+            // this.setLegPosition('FL', fl.x, fl.y, fl.z)
+            // this.setLegPosition('FR', fr.x, fr.y, fr.z)
+            this.setLegPosition('FL', bl.x, bl.y, bl.z)
+            this.setLegPosition('FR', br.x, br.y, br.z)
             this.setLegPosition('BL', bl.x, bl.y, bl.z)
             this.setLegPosition('BR', br.x, br.y, br.z)
 
