@@ -19,7 +19,6 @@ const inputController = (
     momentum,
     accel = config.accel,
     bound = 4,
-    keysPressed,
 ) => {
     const isPressed = (key, keyExcepted) => {
         if (!keysPressed?.length) return false
