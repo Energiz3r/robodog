@@ -1,7 +1,7 @@
 const {radToDegree, lerp, clamp} = require("./utils");
 const {elbowOffset, shoulderOffset, upperLegLength, lowerLegLength} = require("../config").physical
 
-const inversePositioning = (coords, right) => {
+const inversePositioning = (coords, left) => {
     const { x, y, z } = coords;
     const L = 2;
     const y_prime = -Math.sqrt((z + L) ** 2 + y ** 2);
@@ -26,14 +26,14 @@ const inversePositioning = (coords, right) => {
     let thetaShoulder = -theta1;
     let thetaElbow = thetaShoulder - theta2;
     let thetaHip;
-    if (right) {
+    if (left) {
         thetaShoulder = 180 - radToDegree(thetaShoulder) + shoulderOffset;
         thetaElbow = 130 - radToDegree(thetaElbow) + elbowOffset;
-        thetaHip = 90 - radToDegree(thetaZ);
+        thetaHip = 90 + radToDegree(thetaZ);
     } else {
         thetaShoulder = radToDegree(thetaShoulder) - shoulderOffset;
         thetaElbow = 50 + radToDegree(thetaElbow) - elbowOffset;
-        thetaHip = 90 + radToDegree(thetaZ);
+        thetaHip = 90 - radToDegree(thetaZ);
     }
 
     return {thetaShoulder, thetaElbow, thetaHip};
