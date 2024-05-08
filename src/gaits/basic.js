@@ -4,8 +4,8 @@ const {Bezier} = require("bezier-js");
 const s_vals = linspace(0.0, 1.0, 20);
 
 const xmax = 1.0
-const zmin = 15.0
-const zmax = 10.0
+const zmin = 10.0
+const zmax = 15.0
 
 const generateCurve = (nodes) => {
     const stepCurve = new Bezier(nodes);
