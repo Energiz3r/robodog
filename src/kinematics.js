@@ -8,7 +8,11 @@ const inversePositioning = (coords, left) => {
     const thetaZ =
         Math.atan2(z + L, Math.abs(y)) - Math.atan2(L, Math.abs(y_prime));
 
-    if (z !== 0) y_prime = -Math.sqrt((z + L) ** 2 + (y + thetaZ * 5) ** 2);
+    if (left){
+        if (z !== 0) y_prime = -Math.sqrt((z + L) ** 2 + (y + thetaZ * 5) ** 2);
+    } else {
+        if (z !== 0) y_prime = -Math.sqrt((z + L) ** 2 + (y - thetaZ * 5) ** 2);
+    }
 
     const a1 = upperLegLength;
     const a2 = lowerLegLength;
