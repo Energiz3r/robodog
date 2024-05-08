@@ -10,7 +10,9 @@ class dummyPCA {
     }
     setPulseRange(channel, low, hi, callback) {
     }
-    setPulseLength(channel, pulseLength) {
+    setPulseLength(channel, pulseLength, out_max, callback) {
+        console.log("Set pulse length")
+        setTimeout(() => callback(), 3)
     }
     allChannelsOff(){
     }

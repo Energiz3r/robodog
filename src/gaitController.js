@@ -56,8 +56,8 @@ class GaitController {
             const {fl, fr, bl, br} = mapCoordsToLegs(Math.floor(index), curvePoints)
 
             //console.log("Loop! X:", Math.trunc(momentum.longitudinal), "Y:", Math.trunc(momentum.lateral), "Z:", Math.trunc(momentum.vertical))
-            console.log(Math.floor(index), "BL/FR X:", Math.trunc(bl.x), Math.trunc(fr.x), "Y:", Math.trunc(bl.y), Math.trunc(fr.y))
-            console.log(Math.floor(index), "BR/FL X:", Math.trunc(br.x), Math.trunc(fl.x), "Y:", Math.trunc(br.y), Math.trunc(fl.y))
+            console.log(index, "BL/FR X:", Math.trunc(bl.x), Math.trunc(fr.x), "Y:", Math.trunc(bl.y), Math.trunc(fr.y))
+            //console.log(index, "BR/FL X:", Math.trunc(br.x), Math.trunc(fl.x), "Y:", Math.trunc(br.y), Math.trunc(fl.y))
 
             this.setLegPosition('FL', fl.x, fl.y, fl.z)
             this.setLegPosition('FR', fr.x, fr.y, fr.z)
