@@ -17,9 +17,10 @@ const decelerate = (val, accel) => {
 
 const inputController = (
     momentum,
-    accel = config.accel,
-    bound = 6,
 ) => {
+    const accel = config.accel;
+    let bound;
+
     const isPressed = (key, keyExcepted) => {
         if (!keysPressed?.length) return false
         if (keyExcepted) {
@@ -28,6 +29,12 @@ const inputController = (
             return keysPressed.includes(key);
         }
     };
+
+    if (isPressed(" ")) {
+        bound = 6
+    } else {
+       bound = 3
+    }
 
     if (isPressed("W") || isPressed("S")) {
         if (isPressed("W", "S")) {

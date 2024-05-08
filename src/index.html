@@ -67,8 +67,6 @@
 
     const socket = io();
 
-    const allowedKeys = ["Q", "W", "E", "A", "S", "D", " "]
-
     function getKeyCode(str) {
         return str.charCodeAt(0);
     }
@@ -93,6 +91,16 @@
         }
     }
 
+    const allowedKeys = ["Q", "W", "E", "A", "S", "D", " "]
+
+    addListener("q-button", "Q", true)
+    addListener("forward", "W")
+    addListener("e-button", "E", true)
+    addListener("left", "A")
+    addListener("backward", "S")
+    addListener("right", "D")
+    addListener("aux", " ", true)
+
     window.addEventListener('keydown', (event) => {
         if (allowedKeys.includes(getKeyString(event.keyCode))) {
             socket.emit('keydown', event.keyCode);
@@ -103,14 +111,6 @@
             socket.emit('keyup', event.keyCode);
         }
     });
-
-    addListener("forward", "W")
-    addListener("backward", "S")
-    addListener("left", "A")
-    addListener("right", "D")
-    addListener("aux", " ")
-    addListener("q-button", "Q", true)
-    addListener("e-button", "E", true)
 
 </script>
 </body>
