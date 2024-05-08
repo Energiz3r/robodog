@@ -33,7 +33,7 @@ const inversePositioning = (coords, left) => {
     } else {
         thetaShoulder = radToDegree(thetaShoulder) - shoulderOffset;
         thetaElbow = 50 + radToDegree(thetaElbow) - elbowOffset;
-        thetaHip = 90 - radToDegree(thetaZ);
+        thetaHip = 90 + radToDegree(thetaZ);
     }
 
     return {thetaShoulder, thetaElbow, thetaHip};
