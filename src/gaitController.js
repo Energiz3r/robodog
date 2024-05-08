@@ -53,6 +53,7 @@ class GaitController {
             const {fr, fl, br, bl} = mapCoordsToLegs(Math.floor(index), curvePoints)
 
             //console.log(index, "BL/FR X:", Math.trunc(bl.x), Math.trunc(fr.x), "Y:", Math.trunc(bl.y), Math.trunc(fr.y))
+            console.log(Math.floor(index), fr)
 
             const frAngles = inversePositioning(fr, true);
             const flAngles = inversePositioning(fl, false);
