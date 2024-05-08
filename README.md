@@ -4,29 +4,22 @@
 
 ### Credits: 
 
-- "Baris ALP"
-  - grabcad - https://grabcad.com/library/diy-quadruped-robot-1
-- "[Jack Demeter](https://github.com/JackDemeter)"
-  - grabcad - https://grabcad.com/library/quadruped-robot-w-code-1
-  - github - https://github.com/JackDemeter/quadruped-robot
+Some design and code based on work by these guys:
 
-Baris designed the original robot, from which I used some of the electronics, the legs and some body parts.
+- "Baris ALP" - https://grabcad.com/library/diy-quadruped-robot-1
+- "[Jack Demeter](https://github.com/JackDemeter)" https://grabcad.com/library/quadruped-robot-w-code-1
 
-Jack remixed the design, which I've taken inspiration to omit the rear "hip" servos from. He published Python code for a basic kinematic walk behaviour which I re-wrote in NodeJS.
+## Overview
 
-## Approach
+I attempted to learn ROS starting from zero experience with robotic development and found it to be way more complicated than I was prepared to deal with learning at the time. If you wish to operate a robot like this *properly*, you should really a) build a robot with closed-loop motor control, ie. not using R/C servos, and b) learn to create a physic simulation (for ROS, that would be in Gazebo, as far I could tell) and have ROS operate your robot's motors based on actual physical simulation and accelerometer data.
 
-Unfortunately Baris shared no code and hasn't responded to comments, although he did mention using ROS. I attempted to learn ROS starting from zero experience with robotic development and found it to be way more complicated than I was prepared to deal with learning. If you wish to operate a robot like this *properly*, you should a) build a robot with closed-loop motor control, ie. not using R/C servos, and b) learn to create a physic simulation (for ROS, that would be in Gazebo as far I could tell) and have ROS operate your robot's motors based on actual physical simulation and accelerometer data.
+In layman's terms, the code in this repo lets you control the robot and walk it around, but it's really just playing a fixed animation of the legs rather than 'knowing' how to walk.
 
-This repo lets you control the robot and walk it around, but it's really just playing a fixed animation of the legs rather than 'knowing' how to walk.
-
-Jack published code with his remix, but I had extreme difficulty and ultimately failed getting it to run on the OrangePi Zero LTS. This was due to python dependencies and differences between the distros which are a nightmare at the best of times. Not having an Rpi handy nor being prepared to buy one for the sake of Python, I re-wrote Jack's code in NodeJS. Use of Node reduces the only real compatibility challenges to surfacing the i2c interface at `/dev/i2c-*` to talk to the PWM controller.
+I wrote my code in NodeJS. I had extreme difficulty and ultimately failed getting other projects to run on the OrangePi Zero LTS due to python dependencies and differences between the distros which can be a nightmare at the best of times. Not having a real Rpi handy, nor being prepared to buy one for the sake of Python, nor wanting to change the robot design to accommodate it, I went with NodeJS. As a front-end dev this was natural to me. Use of Node reduces the only real compatibility challenges for other people using this repo to surfacing an i2c interface to talk to the PWM controller.
 
 ## Assembly
 
-Build the robot either according to Baris' or Jack's design and whatever parts you may already have or can buy locally. This is the easy part! You can optionally 3D print some parts I've included here as well.
-
-If you use Baris' design, you can omit the rear hip servos and either use mine or Jack's parts to mount those. Alternatively, I added provision in the code for those servos to be set at calibration position and then just do nothing, so you could add them to your build and still use this code if you intend to develop for them later.
+This is the easy part! I'll add physical build instructions soon.
 
 ## Electronics Required
 
@@ -37,13 +30,11 @@ If you use Baris' design, you can omit the rear hip servos and either use mine o
   - There were many options to choose from; I selected both the 35kg rating (higher torque gearing reduces rotation speed) and included the optional red anodized aluminium arm, which I used.
   - Be aware if you stall these servos and have a powerful enough supply of current, they will burn very quickly. Make sure your robot is assembled and the servos properly positioned before you attach the legs.
 
-Baris' design used a pair of regulators with adjustable voltage / current. I had issues with the servos jittering constantly and could not solve it with the current at maximum. I even went as far as adding additional capacitors to no avail.
-
-I instead opted to power my servos directly from the battery I built, which is 4x 18650 cells wired in 2S2P for a nominal 7.4V. The servos I used are fine with this voltage and I imagine most will be as it's standard practice to power servos from a 2S LiPo in R/C cars. This many cells is quite heavy however, and at time of writing weight may be causing the issues with the gait that I'm experiencing. The robot runs for many hours on a single charge, so I'll say that 2S1P is likely plenty.
+Instead of using a regulator, I opted to power my servos directly from the battery, which is 2x 18650 cells in series for a nominal 7.4V. The servos I used are fine with this voltage and I imagine most will be as it's standard practice to power servos from a 2S LiPo in R/C cars. The robot runs for at least an hour on a single charge, so they seem to be plenty.
 
 ## Bill of Materials
 
-Not including 3D printed parts. Note this repo does not contain design files from Baris or Jack's repos except those which I've modified. I'll later update this repo to be a complete single-source once I've worked out the details.
+Will update with complete list once the project is mature.
 
 <details>
 (draft)
@@ -52,7 +43,7 @@ Not including 3D printed parts. Note this repo does not contain design files fro
 - Rocker switch - local electronics store
 - 12x spt5435LV
 - 2x dc-dc SZBK07 (* I did not use these. heavy!)
-- 4x 18650 (I used Sony VTC6)
+- 2x 18650 (I used Sony VTC6)
 - battery indicator - choose to suit your battery configuration and chemistry
 - 50X50X10mm fan
 - 16x 5mm R/C tie rod end (HPI)
@@ -99,7 +90,3 @@ Overall status
 See related Git project for planned and in-progress features: https://github.com/users/Energiz3r/projects/2
 
 I'm absolutely useless when it comes to 3D modelling. The parts I've modified were done so in [123D Design](https://autodesk-123d-design.en.lo4d.com/windows), a discontinued piece of *very* basic software from Autodesk. If you want proper design files you'll need to make / convert them yourself. Contributions of all kind are welcome, but conversion of the 3D files to proper CAD format especially so.
-
-There are a couple of features that Jack's python program can do that are missing from this, which I have no plan on adding:
-- direct keyboard control (keyboard plugged into the Pi). Not planning to add this as the OrangePi Zero LTS is headless-only and I can't see much use for it
-- direct keyboard control over the network (socket). A web interface with socket.io seems more practical and flexible, plus it works on your phone
