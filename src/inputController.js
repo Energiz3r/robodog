@@ -31,7 +31,7 @@ const inputController = (
     };
 
     if (isPressed(" ")) {
-        bound = 6
+        bound = 3
     } else {
        bound = 3
     }
@@ -68,6 +68,7 @@ const inputController = (
         momentum.vertical = Math.max(momentum.vertical - 0.05, 1);
     }
 
+    console.log(momentum)
     return momentum;
 };
 

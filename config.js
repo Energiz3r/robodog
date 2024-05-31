@@ -1,6 +1,6 @@
 const config = {
     port: 3000,
-    accel: 0.20,
+    accel: 0.10,
     loopDelayMs: 25,
     calibrate: false,
     motors: {
