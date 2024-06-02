@@ -1,6 +1,8 @@
 # robodog - the noob friendly quadruped robot
 
-![robodog](./img/robodog.jpg)
+*Click thumbnail to play video (YouTube):*
+
+[![youtube video](http://img.youtube.com/vi/46twC60OhOA/0.jpg)](https://www.youtube.com/watch?v=46twC60OhOA)
 
 ### Credits: 
 
